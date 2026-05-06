@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Enroll — CAMS</title>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/neumorphism.css' %}">
+</head>
+<body>
+<div class="bg-mesh"></div>
+<nav class="navbar">
+  <a href="/" class="navbar-brand"><div class="brand-icon">🎓</div>CAMS</a>
+  <ul class="navbar-nav">
+    <li><a href="/">Home</a></li>
+    <li><a href="/activities/">Activities</a></li>
+    <li><a href="/dashboard-student/">Dashboard</a></li>
+  </ul>
+  <div class="navbar-actions" id="navbar-user-area"></div>
+  <button class="navbar-hamburger" id="hamburger-btn">☰</button>
+</nav>
+<div class="mobile-drawer-overlay" id="mobile-drawer-overlay"></div>
+<div class="mobile-drawer" id="mobile-drawer">
+  <ul class="sidebar-nav">
+    <li><a href="/dashboard-student/"><span class="nav-icon">📊</span>Dashboard</a></li>
+    <li><a hr//activities/"><span class="nav-icon">📋</span>Activities</a></li>
+  </ul>
+</div>
+
+<main class="page-container">
+  <div class="container-sm" style="padding-top:40px;padding-bottom:60px">
+    <!-- Activity Summary -->
+    <div class="card animate-fade mb-20" id="activity-summary" style="margin-bottom:20px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:48px;height:48px;background:rgba(124,58,237,.15);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🎟️</div>
+        <div>
+          <div style="font-size:.78rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em">Enrolling For</div>
+          <div style="font-size:1.05rem;font-weight:700" id="act-name-display">Loading…</div>
+          <div style="font-size:.8rem;color:var(--text-muted)" id="act-meta-display"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-header animate-fade">
+      <div>
+        <h1 class="page-title">📝 Enrollment Form</h1>
+        <p class="page-subtitle">Complete your registration details</p>
+      </div>
+      <a hr//activities/" class="btn btn-ghost btn-sm">← Back</a>
+    </div>
+
+    <div class="alert alert-error hidden" id="general-error-box">
+      <span>⚠️</span><span id="general-error"></span>
+    </div>
+
+    <div class="card animate-slide">
+      <form id="enroll-form" novalidate>
+        <!-- Personal Info -->
+        <h3 style="font-size:1rem;font-weight:700;margin-bottom:16px;color:var(--accent-light)">👤 Personal Information</h3>
+        <div class="grid-2" style="gap:16px">
+          <div class="form-group">
+            <label class="form-label" for="enroll-name">Full Name <span class="required">*</span></label>
+            <input type="text" class="form-control" id="enroll-name" placeholder="Your full name"/>
+            <span class="form-error" id="enroll-name-error"></span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="enroll-studentid">ID <span class="required">*</span></label>
+            <input type="text" class="form-control" id="enroll-studentid" placeholder="e.g. STU2024001"/>
+            <span class="form-error" id="enroll-studentid-error"></span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="enroll-email">Email Address <span class="required">*</span></label>
+          <div class="form-icon-wrap">
+            <span class="field-icon">✉️</span>
+            <input type="email" class="form-control" id="enroll-email" placeholder="your@email.com"/>
+          </div>
+          <span class="form-error" id="enroll-email-error"></span>
+        </div>
+
+        <hr class="section-divider"/>
+        <h3 style="font-size:1rem;font-weight:700;margin-bottom:16px;color:var(--accent-light)">🏫 Academic Details</h3>
+        <div class="grid-2" style="gap:16px">
+          <div class="form-group">
+            <label class="form-label" for="enroll-dept">Department <span class="required">*</span></label>
+            <select class="form-control" id="enroll-dept">
+              <option value="">-- Select Dept --</option>
+              <option>Computer Science</option>
+              <option>Electronics</option>
+              <option>Mechanical</option>
+              <option>Civil</option>
+              <option>Electrical</option>
+              <option>Chemical</option>
+              <option>Information Technology</option>
+            </select>
+            <span class="form-error" id="enroll-dept-error"></span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Year of Study <span class="required">*</span></label>
+            <div class="form-check"><input type="radio" name="year" id="year1" value="1st Year"/><label class="form-check-label" for="year1">1st Year</label></div>
+            <div class="form-check"><input type="radio" name="year" id="year2" value="2nd Year"/><label class="form-check-label" for="year2">2nd Year</label></div>
+            <div class="form-check"><input type="radio" name="year" id="year3" value="3rd Year"/><label class="form-check-label" for="year3">3rd Year</label></div>
+            <div class="form-check"><input type="radio" name="year" id="year4" value="4th Year"/><label class="form-check-label" for="year4">4th Year</label></div>
+            <span class="form-error" id="enroll-year-error"></span>
+          </div>
+        </div>
+
+        <hr class="section-divider"/>
+        <h3 style="font-size:1rem;font-weight:700;margin-bottom:16px;color:var(--accent-light)">📞 Contact Details</h3>
+        <div class="grid-2" style="gap:16px">
+          <div class="form-group">
+            <label class="form-label" for="enroll-phone">Phone Number <span class="required">*</span></label>
+            <div class="form-icon-wrap">
+              <span class="field-icon">📱</span>
+              <input type="tel" class="form-control" id="enroll-phone" placeholder="10-digit number" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')"/>
+            </div>
+            <span class="form-error" id="enroll-phone-error"></span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="enroll-emergency">Emergency Contact <span class="required">*</span></label>
+            <div class="form-icon-wrap">
+              <span class="field-icon">🆘</span>
+              <input type="tel" class="form-control" id="enroll-emergency" placeholder="Emergency number" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')"/>
+            </div>
+            <span class="form-error" id="enroll-emergency-error"></span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="enroll-requirements">Special Requirements</label>
+          <textarea class="form-control" id="enroll-requirements" rows="2" placeholder="Dietary restrictions, accessibility needs, etc. (optional)"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-check">
+            <input type="checkbox" id="enroll-consent"/>
+            <span class="form-check-label">I consent to participate in this activity and agree to follow all rules and guidelines. <span class="required">*</span></span>
+          </label>
+          <span class="form-error" id="enroll-consent-error"></span>
+        </div>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <button type="submit" class="btn btn-primary btn-lg" id="enroll-btn" style="flex:1">🎟️ Confirm Enrollment</button>
+          <button type="reset" class="btn btn-ghost btn-lg" style="flex:1">🔄 Reset</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+<script>
+let activityId = null;
+
+document.addEventListener('DOMContentLoaded', async () => {
+  AUTH.requireAuth(['student']);
+  const sess = AUTH.getSession();
+  const user = AUTH.getCurrentUser();
+  const params = new URLSearchParams(window.location.search);
+  activityId = params.get('id');
+
+  if (!activityId) { window.location.hr//activities/'; return; }
+  const act = await APP.getActivityById(activityId);
+  if (!act) { UI.toast('Activity not found.','error'); setTimeout(()=>window.location.hr//activities/',1200); return; }
+
+  document.getElementById('act-name-display').textContent = act.title;
+  document.getElementById('act-meta-display').textContent = `📅 ${UI.formatDate(act.date)} · 📍 ${act.venue} · 🌐 ${act.mode}`;
+
+  // Check already enrolled
+  if (await APP.isEnrolled(activityId, sess.userId)) {
+    UI.toast('You are already enrolled in this activity.','warning');
+    setTimeout(()=>window.location.href='dashboard-student.html',1500);
+    return;
+  }
+
+  // Prefill from profile
+  if (user) {
+    document.getElementById('enroll-name').value = user.name || '';
+    document.getElementById('enroll-email').value = user.email || '';
+    document.getElementById('enroll-studentid').value = user.studentId || '';
+    document.getElementById('enroll-dept').value = user.dept || '';
+    document.getElementById('enroll-phone').value = user.phone || '';
+  }
+
+  // Live validation
+  const rules = [
+    { id:'enroll-name', v: val => !val.trim()||val.trim().length<2 ? 'Full name required.' : null },
+    { id:'enroll-studentid', v: val => !val.trim() ? 'Student ID required.' : null },
+    { id:'enroll-email', v: val => !AUTH.isValidEmail(val) ? 'Enter a valid email.' : null },
+    { id:'enroll-dept', v: val => !val ? 'Select your department.' : null },
+    { id:'enroll-phone', v: val => !AUTH.isValidPhone(val) ? 'Enter a valid 10-digit number.' : null },
+    { id:'enroll-emergency', v: val => !AUTH.isValidPhone(val) ? 'Enter a valid 10-digit number.' : null },
+  ];
+  rules.forEach(({id, v}) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('blur', () => { const e=v(el.value); e?UI.setFieldError(id,e):UI.setFieldValid(id); });
+    el.addEventListener('input', () => { if(el.classList.contains('is-invalid')) UI.clearFieldError(id); });
+  });
+});
+
+document.getElementById('enroll-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  UI.clearAllErrors('enroll-form');
+  document.getElementById('general-error-box').classList.add('hidden');
+  const sess = AUTH.getSession();
+  const yearEl = document.querySelector('input[name="year"]:checked');
+
+  const data = {
+    studentId: sess.userId,
+    studentName: document.getElementById('enroll-name').value.trim(),
+    studentEmail: document.getElementById('enroll-email').value.trim(),
+    studentIdNum: document.getElementById('enroll-studentid').value.trim(),
+    dept: document.getElementById('enroll-dept').value,
+    year: yearEl ? yearEl.value : '',
+    phone: document.getElementById('enroll-phone').value.trim(),
+    emergencyContact: document.getElementById('enroll-emergency').value.trim(),
+    requirements: document.getElementById('enroll-requirements').value.trim(),
+    consent: document.getElementById('enroll-consent').checked,
+  };
+
+  const errors = APP.validateEnrollForm(data);
+  if (errors.length) { UI.applyErrors(errors); return; }
+
+  const btn = document.getElementById('enroll-btn');
+  btn.disabled=true; btn.textContent='Enrolling…';
+
+  const res = await APP.enrollStudent(activityId, data);
+  if (res.ok) {
+    UI.toast('🎉 Successfully enrolled!', 'success', 4000);
+    setTimeout(()=>window.location.href='dashboard-student.html', 1500);
+  } else {
+    document.getElementById('general-error').textContent = res.msg || 'Enrollment failed.';
+    document.getElementById('general-error-box').classList.remove('hidden');
+    btn.disabled=false; btn.textContent='🎟️ Confirm Enrollment';
+  }
+});
+</script>
+</body>
+</html>

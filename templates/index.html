@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>CAMS — College Activity Management System</title>
+<meta name="description" content="Manage college activities, events, enrollments and more. One platform for admins, coordinators and students."/>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/neumorphism.css' %}">
+</head>
+<body>
+<div class="bg-mesh"></div>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <a href="/" class="navbar-brand"><div class="brand-icon">🎓</div>CAMS</a>
+  <ul class="navbar-nav">
+    <li><a href="/" class="active">Home</a></li>
+    <li><a href="/activities/">Activities</a></li>
+    <li><a href="/login/">Login</a></li>
+    <li><a href="/register/">Register</a></li>
+  </ul>
+  <div class="navbar-actions" id="navbar-user-area">
+    <a href="/login/" class="btn btn-outline btn-sm" id="navbar-login-btn">Login</a>
+    <a href="/register/" class="btn btn-primary btn-sm">Register</a>
+  </div>
+  <button class="navbar-hamburger" id="hamburger-btn">☰</button>
+</nav>
+
+<!-- Mobile Drawer -->
+<div class="mobile-drawer-overlay" id="mobile-drawer-overlay"></div>
+<div class="mobile-drawer" id="mobile-drawer">
+  <div style="font-weight:700;font-size:1.1rem;margin-bottom:20px;color:var(--accent-light)">🎓 CAMS</div>
+  <ul class="sidebar-nav">
+    <li><a href="/"><span class="nav-icon">🏠</span>Home</a></li>
+    <li><a href="/activities/"><span class="nav-icon">📋</span>Activities</a></li>
+    <li><a href="/login/"><span class="nav-icon">🔑</span>Login</a></li>
+    <li><a href="/register/"><span class="nav-icon">📝</span>Register</a></li>
+  </ul>
+</div>
+
+<main class="page-container">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container" style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;width:100%">
+      <div class="hero-content animate-slide">
+        <div class="hero-eyebrow">✨ Smart College Management</div>
+        <h1 class="hero-title">Manage Every <span class="gradient-text">College Activity</span> Seamlessly</h1>
+        <p class="hero-desc">CAMS brings together administrators, coordinators and students on one unified platform to discover, organize and participate in college activities effortlessly.</p>
+        <div class="hero-actions">
+          <a href="/register/" class="btn btn-primary btn-lg">Get Started Free</a>
+          <a href="/activities/" class="btn btn-ghost btn-lg">Browse Activities</a>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features-section">
+    <div class="container">
+      <div class="text-center mb-32">
+        <h2 style="font-size:clamp(1.6rem,3vw,2.4rem);font-weight:900;margin-bottom:12px">Everything You Need, <span class="gradient-text">All in One Place</span></h2>
+        <p style="color:var(--text-secondary);max-width:500px;margin:0 auto">Powerful tools for every stakeholder — admins, coordinators, and students.</p>
+      </div>
+      <div class="features-grid stagger">
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(124,58,237,.15)">🛡️</div>
+          <h3>Role-Based Access</h3>
+          <p>Admin, Coordinator, and Student roles with dedicated dashboards and permissions tailored to each user type.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(59,130,246,.15)">📅</div>
+          <h3>Activity Management</h3>
+          <p>Create, manage, and track activities with detailed forms. Set capacity, deadlines, modes and categories.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(16,185,129,.15)">📝</div>
+          <h3>Online Enrollment</h3>
+          <p>Students can browse and enroll in activities with a validated form. Track your enrollment history anytime.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(245,158,11,.15)">📊</div>
+          <h3>Live Analytics</h3>
+          <p>Real-time dashboards with enrollment counts, activity statistics, and user management for administrators.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(236,72,153,.15)">🔍</div>
+          <h3>Search & Filter</h3>
+          <p>Quickly find activities by name, category, or status. Full-text search with paginated results.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:rgba(239,68,68,.15)">✅</div>
+          <h3>Smart Validation</h3>
+          <p>Every form features real-time client-side validation with meaningful, field-specific error messages.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-box">
+        <h2 style="font-size:clamp(1.6rem,3vw,2.2rem);font-weight:900;margin-bottom:14px">Ready to Get Started?</h2>
+        <p style="color:var(--text-secondary);max-width:480px;margin:0 auto 28px;font-size:1rem">Join thousands of students and coordinators already using CAMS to make college life more organized.</p>
+        <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+          <a href="/register/" class="btn btn-primary btn-lg">Create Account</a>
+          <a href="/login/" class="btn btn-ghost btn-lg">Sign In</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">🎓 CAMS</div>
+        <div class="footer-links">
+          <a href="/activities/">Activities</a>
+          <a href="/login/">Login</a>
+          <a href="/register/">Register</a>
+        </div>
+      </div>
+      <div class="footer-copy">© 2026 College Activity Management System. Built for academic excellence.</div>
+    </div>
+  </footer>
+</main>
+
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+<script>
+// Automatically log out if a logged-in user returns to the home page
+if (sessionStorage.getItem('cams_session')) {
+  const sess = JSON.parse(sessionStorage.getItem('cams_session'));
+  const confirmLogout = confirm("⚠️ Warning: Returning to the Home Page will log you out from your current session. Do you want to proceed and log out?");
+  if (confirmLogout) {
+    sessionStorage.removeItem('cams_session');
+    window.location.reload();
+  } else {
+    // Send them back to their dashboard instead of logging them out
+    const map = { admin: 'dashboard-admin.html', coordinator: 'dashboard-coordinator.html', student: 'dashboard-student.html' };
+    const target = map[sess.role] || '/login/';
+    if (window.history.length > 1) {
+      window.history.back();
+      setTimeout(() => window.location.href = target, 200);
+    } else {
+      window.location.href = target;
+    }
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Login — CAMS</title>
+<meta name="description" content="Login to the College Activity Management System as Admin, Coordinator or Student."/>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/neumorphism.css' %}">
+</head>
+<body>
+<div class="bg-mesh"></div>
+
+<nav class="navbar">
+  <a href="/" class="navbar-brand"><div class="brand-icon">🎓</div>CAMS</a>
+  <ul class="navbar-nav">
+    <li><a href="/">Home</a></li>
+    <li><a href="/activities/">Activities</a></li>
+  </ul>
+  <div class="navbar-actions">
+    <a href="/register/" class="btn btn-primary btn-sm">Create Account</a>
+  </div>
+</nav>
+
+<main class="auth-page">
+  <div class="auth-card animate-scale">
+    <div class="auth-logo">
+      <div class="logo-icon">🎓</div>
+      <h1>Welcome Back</h1>
+      <p>Sign in to your CAMS account</p>
+    </div>
+
+
+    <!-- General Error -->
+    <div class="alert alert-error hidden" id="general-error-box">
+      <span>⚠️</span><span id="general-error-text"></span>
+    </div>
+
+    <form id="login-form" novalidate>
+      <!-- Email -->
+      <div class="form-group">
+        <label class="form-label" for="email">Email Address <span class="required">*</span></label>
+        <div class="form-icon-wrap">
+          <span class="field-icon">✉️</span>
+          <input type="email" class="form-control" id="email" placeholder="you@college.edu" autocomplete="email"/>
+        </div>
+        <span class="form-error" id="email-error"></span>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label class="form-label" for="password">Password <span class="required">*</span></label>
+        <div class="form-icon-wrap">
+          <span class="field-icon">🔒</span>
+          <input type="password" class="form-control" id="password" placeholder="Your password" autocomplete="current-password"/>
+          <span class="field-icon-right" id="toggle-pw" onclick="togglePw()" title="Show/Hide password">👁️</span>
+        </div>
+        <span class="form-error" id="password-error"></span>
+      </div>
+
+      <!-- Remember Me -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+        <label class="form-check" style="margin:0">
+          <input type="checkbox" id="remember"/>
+          <span class="form-check-label">Remember me</span>
+        </label>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block btn-lg" id="submit-btn">Sign In</button>
+    </form>
+
+    <div class="text-center mt-20" style="font-size:.88rem;color:var(--text-muted)">
+      Don't have an account? <a href="/register/" style="color:var(--accent-light);font-weight:600">Register here</a>
+    </div>
+
+
+  </div>
+</main>
+
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  AUTH.redirectIfLoggedIn();
+});
+
+function togglePw() {
+  const inp = document.getElementById('password');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+function clearErrors() {
+  UI.clearAllErrors('login-form');
+  document.getElementById('general-error-box').classList.add('hidden');
+}
+
+document.getElementById('login-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  clearErrors();
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true; btn.textContent = 'Signing in…';
+
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+
+  const res = await AUTH.login(email, password);
+  if (res.ok) {
+    UI.toast(`Welcome back, ${res.user.name}! 🎉`, 'success');
+    setTimeout(() => { window.location.href = AUTH.getDashboardUrl(res.user.role); }, 800);
+  } else {
+    res.errors.forEach(err => {
+      if (err.field === 'general') {
+        const box = document.getElementById('general-error-box');
+        document.getElementById('general-error-text').textContent = err.msg;
+        box.classList.remove('hidden');
+      } else {
+        UI.setFieldError(err.field, err.msg);
+      }
+    });
+    btn.disabled = false; btn.textContent = 'Sign In';
+  }
+});
+
+// Live validation
+document.getElementById('email').addEventListener('blur', function() {
+  if (!AUTH.isValidEmail(this.value)) UI.setFieldError('email','Enter a valid email address.');
+  else UI.setFieldValid('email');
+});
+document.getElementById('password').addEventListener('blur', function() {
+  if (!this.value) UI.setFieldError('password','Password is required.');
+  else UI.setFieldValid('password');
+});
+document.getElementById('email').addEventListener('input', () => UI.clearFieldError('email'));
+document.getElementById('password').addEventListener('input', () => UI.clearFieldError('password'));
+</script>
+</body>
+</html>

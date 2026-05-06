@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Activities — CAMS</title>
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/neumorphism.css' %}">
+</head>
+
+<body>
+<div class="bg-mesh"></div>
+
+<nav class="navbar">
+  <a href="/" class="navbar-brand">
+    <div class="brand-icon">🎓</div>CAMS
+  </a>
+
+  <ul class="navbar-nav">
+    <li><a href="/">Home</a></li>
+    <li><a href="/activities/" class="active">Activities</a></li>
+  </ul>
+
+  <div class="navbar-actions">
+    <a href="/login/" class="btn btn-outline btn-sm">Login</a>
+    <a href="/register/" class="btn btn-primary btn-sm">Register</a>
+  </div>
+</nav>
+
+<main class="page-container">
+  <div class="container" style="padding-top:40px;padding-bottom:60px">
+
+    <!-- Header -->
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">📋 All Activities</h1>
+        <p class="page-subtitle">Discover and enroll</p>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stat-grid grid mb-32">
+
+      <div class="stat-card">
+        <div class="stat-value">{{ total }}</div>
+        <div class="stat-label">Total</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-value">{{ approved }}</div>
+        <div class="stat-label">Approved</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-value">{{ sports }}</div>
+        <div class="stat-label">Sports</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-value">{{ cultural }}</div>
+        <div class="stat-label">Cultural</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-value">{{ technical }}</div>
+        <div class="stat-label">Technical</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-value">{{ academic }}</div>
+        <div class="stat-label">Academic</div>
+      </div>
+
+    </div>
+
+    <!-- Activities Grid -->
+    <div class="activity-grid">
+
+      {% for a in activities %}
+      <div class="activity-card">
+
+        <h3>{{ a.title }}</h3>
+
+        <p>📅 {{ a.date }} | 📍 {{ a.venue }}</p>
+
+        <p>{{ a.desc }}</p>
+
+        <span class="badge">{{ a.category }}</span>
+        <span class="badge">{{ a.status }}</span>
+
+        <div style="margin-top:10px">
+          <a href="/enroll/{{ a.id }}/" class="btn btn-primary btn-sm">
+            Enroll
+          </a>
+        </div>
+
+      </div>
+      {% endfor %}
+
+    </div>
+
+  </div>
+</main>
+
+</body>
+</html>

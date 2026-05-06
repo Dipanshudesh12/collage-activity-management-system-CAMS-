@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Submit Activity — CAMS</title>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/neumorphism.css' %}">
+</head>
+<body>
+<div class="bg-mesh"></div>
+<nav class="navbar">
+  <a href="/" class="navbar-brand"><div class="brand-icon">🎓</div>CAMS</a>
+  <ul class="navbar-nav">
+    <li><a href="/">Home</a></li>
+    <li><a href="/activities/">Activities</a></li>
+    <li><a href="/dashboard-coordinator/">Dashboard</a></li>
+  </ul>
+  <div class="navbar-actions" id="navbar-user-area"></div>
+  <button class="navbar-hamburger" id="hamburger-btn">☰</button>
+</nav>
+<div class="mobile-drawer-overlay" id="mobile-drawer-overlay"></div>
+<div class="mobile-drawer" id="mobile-drawer">
+  <ul class="sidebar-nav">
+    <li><a href="/dashboard-coordinator/"><span class="nav-icon">📊</span>Dashboard</a></li>
+    <li><a href="/activities/"><span class="nav-icon">📋</span>Activities</a></li>
+    <li><a href="/submit-activity/"><span class="nav-icon">➕</span>Submit Activity</a></li>
+  </ul>
+</div>
+
+<main class="page-container">
+  <div class="container-sm" style="padding-top:40px;padding-bottom:60px">
+    <div class="page-header animate-fade">
+      <div>
+        <h1 class="page-title">➕ Submit Activity</h1>
+        <p class="page-subtitle">Fill in the details to propose a new activity</p>
+      </div>
+      <a href="/dashboard-coordinator/" class="btn btn-ghost btn-sm">← Back to Dashboard</a>
+    </div>
+
+    <div class="card animate-slide" id="edit-notice" style="display:none;margin-bottom:20px;border-color:rgba(245,158,11,.4)">
+      <div style="display:flex;gap:10px;align-items:center;color:var(--amber-light)">✏️ <b>Editing activity</b> <span id="edit-title"></span></div>
+    </div>
+
+    <div class="card animate-slide">
+      <form id="activity-form" novalidate>
+        <!-- Basic Info -->
+        <h3 style="font-size:1rem;font-weight:700;margin-bottom:16px;color:var(--accent-light)">📌 Basic Information</h3>
+        <div class="form-group">
+          <label class="form-label" for="act-title">Activity Title <span class="required">*</span></label>
+          <input type="text" class="form-control" id="act-title" placeholder="e.g. National Level Hackathon 2026"/>
+          <span class="form-error" id="act-title-error"></span>
+        </div>
+        <div class="grid-2" style="gap:16px">
+          <div class="form-group">
+            <label class="form-label" for="act-category">Category <span class="required">*</span></label>
+            <select class="form-control" id="act-category">
+              <option value="">-- Select Category --</option>
+              <option value="sports">🏃 Sports</option>
+              <option value="cultural">🎭 Cultural</option>
+              <option value="technical">💻 Technical</option>
+              <option value="academic">📚 Academic</option>
+            </select>
+            <span class="form-error" id="act-category-error"></span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="act-mode">Mode <span class="required">*</span></label>
+            <select class="form-control" id="act-mode">
+              <option value="">-- Select Mode --</option>
+              <option value="offline">🏢 Offline</option>
+              <option value="online">💻 Online</option>
+              <option value="hybrid">🔀 Hybrid</option>
+            </select>
+            <span class="form-error" id="act-mode-error"></span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="act-desc">Description <span class="required">*</span></label>
+          <textarea class="form-control" id="act-desc" placeholder="Describe the activity in at least 20 characters…" rows="4"></textarea>
+          <span class="form-hint" id="desc-count">0 / minimum 20 characters</span>
+          <span class="form-error" id="act-desc-error"></span>
+        </div>
+
+        <hr class="section-divider"/>
+        <h3 style="font-size:1rem;font-weight:700;margin-bottom:16px;color:var(--accent-light)">📅 Schedule & Venue</h3>
+        <div class="grid-2" style="gap:16px">
+          <div class="form-group">
+            <label class="form-label" for="act-date">Event Date <span class="required">*</span></label>
+            <input type="date" class="form-control" id="act-date"/>
+            <span class="form-error" id="act-date-error"></span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="act-time">Event Time <span class="required">*</span></label>
+            <input type="time" class="form-control" id="act-time"/>
+            <span class="form-error" id="act-time-error"></span>
+          </div>
+        </div>
+        <div class="grid-2" style="gap:16px">
+          <div class="form-group">
+            <label class="form-label" for="act-venue">Venue <span class="required">*</span></label>
+            <input type="text" class="form-control" id="act-venue" placeholder="e.g. Auditorium / Online"/>
+            <span class="form-error" id="act-venue-error"></span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="act-deadline">Registration Deadline <span class="required">*</span></label>
+            <input type="date" class="form-control" id="act-deadline"/>
+            <span class="form-error" id="act-deadline-error"></span>
+          </div>
+        </div>
+        <div class="grid-2" style="gap:16px">
+          <div class="form-group">
+            <label class="form-label" for="act-max">Max Participants <span class="required">*</span></label>
+            <input type="number" class="form-control" id="act-max" placeholder="e.g. 100" min="1" max="10000"/>
+            <span class="form-error" id="act-max-error"></span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="act-contact">Contact Email <span class="required">*</span></label>
+            <input type="email" class="form-control" id="act-contact" placeholder="coordinator@college.edu"/>
+            <span class="form-error" id="act-contact-error"></span>
+          </div>
+        </div>
+
+        <hr class="section-divider"/>
+        <h3 style="font-size:1rem;font-weight:700;margin-bottom:16px;color:var(--accent-light)">🏷️ Tags</h3>
+        <div class="form-check-group mb-20">
+          <label class="form-check"><input type="checkbox" name="tags" value="hackathon"/><span class="form-check-label">Hackathon</span></label>
+          <label class="form-check"><input type="checkbox" name="tags" value="sports"/><span class="form-check-label">Sports</span></label>
+          <label class="form-check"><input type="checkbox" name="tags" value="coding"/><span class="form-check-label">Coding</span></label>
+          <label class="form-check"><input type="checkbox" name="tags" value="music"/><span class="form-check-label">Music</span></label>
+          <label class="form-check"><input type="checkbox" name="tags" value="drama"/><span class="form-check-label">Drama</span></label>
+          <label class="form-check"><input type="checkbox" name="tags" value="research"/><span class="form-check-label">Research</span></label>
+          <label class="form-check"><input type="checkbox" name="tags" value="dance"/><span class="form-check-label">Dance</span></label>
+          <label class="form-check"><input type="checkbox" name="tags" value="wellness"/><span class="form-check-label">Wellness</span></label>
+          <label class="form-check"><input type="checkbox" name="tags" value="innovation"/><span class="form-check-label">Innovation</span></label>
+          <label class="form-check"><input type="checkbox" name="tags" value="tournament"/><span class="form-check-label">Tournament</span></label>
+        </div>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <button type="submit" class="btn btn-primary btn-lg" id="submit-btn" style="flex:1">📤 Submit Activity</button>
+          <button type="button" class="btn btn-ghost btn-lg" onclick="resetActivityForm()" style="flex:1">🔄 Reset</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+<script>
+let editId = null;
+
+document.addEventListener('DOMContentLoaded', async () => {
+  AUTH.requireAuth(['coordinator', 'admin']);
+  const sess = AUTH.getSession();
+  document.getElementById('act-contact').value = sess ? sess.email : '';
+
+  // Check for edit mode
+  const params = new URLSearchParams(window.location.search);
+  editId = params.get('edit');
+  if (editId) {
+    const act = await APP.getActivityById(editId);
+    if (act && (act.coordinatorId === sess.userId || sess.role === 'admin')) {
+      prefillForm(act);
+    } else { editId = null; }
+  }
+
+  // Description counter
+  document.getElementById('act-desc').addEventListener('input', function() {
+    document.getElementById('desc-count').textContent = `${this.value.length} characters (minimum 20)`;
+  });
+
+  // Live validation
+  const rules = [
+    { id:'act-title', v: val => !val.trim()||val.trim().length<3 ? 'Title needs at least 3 characters.' : null },
+    { id:'act-category', v: val => !val ? 'Select a category.' : null },
+    { id:'act-desc', v: val => !val.trim()||val.trim().length<20 ? 'Description must be at least 20 characters.' : null },
+    { id:'act-date', v: val => !val ? 'Date required.' : new Date(val)<new Date() ? 'Date must be in the future.' : null },
+    { id:'act-time', v: val => !val ? 'Time required.' : null },
+    { id:'act-venue', v: val => !val.trim() ? 'Venue required.' : null },
+    { id:'act-max', v: val => !val||+val<1 ? 'Must be at least 1.' : null },
+    { id:'act-deadline', v: val => !val ? 'Deadline required.' : null },
+    { id:'act-contact', v: val => !AUTH.isValidEmail(val) ? 'Enter a valid email.' : null },
+    { id:'act-mode', v: val => !val ? 'Select a mode.' : null },
+  ];
+  rules.forEach(({id, v}) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('blur', () => { const e=v(el.value); e?UI.setFieldError(id,e):UI.setFieldValid(id); });
+    el.addEventListener('input', () => { if(el.classList.contains('is-invalid')) UI.clearFieldError(id); });
+  });
+});
+
+function prefillForm(act) {
+  document.getElementById('edit-notice').style.display='flex';
+  document.getElementById('edit-title').textContent = '"'+act.title+'"';
+  document.getElementById('act-title').value = act.title;
+  document.getElementById('act-category').value = act.category;
+  document.getElementById('act-mode').value = act.mode;
+  document.getElementById('act-desc').value = act.desc;
+  document.getElementById('act-date').value = act.date;
+  document.getElementById('act-time').value = act.time;
+  document.getElementById('act-venue').value = act.venue;
+  document.getElementById('act-deadline').value = act.deadline;
+  document.getElementById('act-max').value = act.maxParticipants;
+  document.getElementById('act-contact').value = act.contact;
+  document.getElementById('submit-btn').textContent = '✏️ Update Activity';
+  if (act.tags) {
+    act.tags.forEach(t => {
+      const cb = document.querySelector(`input[name="tags"][value="${t}"]`);
+      if (cb) cb.checked = true;
+    });
+  }
+}
+
+function resetActivityForm() {
+  editId = null;
+  document.getElementById('activity-form').reset();
+  document.getElementById('edit-notice').style.display='none';
+  document.getElementById('submit-btn').textContent='📤 Submit Activity';
+  document.querySelectorAll('.form-control').forEach(el=>{el.classList.remove('is-valid','is-invalid');});
+  document.querySelectorAll('.form-error.show').forEach(el=>el.classList.remove('show'));
+}
+
+document.getElementById('activity-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  UI.clearAllErrors('activity-form');
+  const sess = AUTH.getSession();
+  const tags = [...document.querySelectorAll('input[name="tags"]:checked')].map(c=>c.value);
+  const data = {
+    title: document.getElementById('act-title').value.trim(),
+    category: document.getElementById('act-category').value,
+    desc: document.getElementById('act-desc').value.trim(),
+    date: document.getElementById('act-date').value,
+    time: document.getElementById('act-time').value,
+    venue: document.getElementById('act-venue').value.trim(),
+    maxParticipants: parseInt(document.getElementById('act-max').value)||0,
+    deadline: document.getElementById('act-deadline').value,
+    mode: document.getElementById('act-mode').value,
+    contact: document.getElementById('act-contact').value.trim(),
+    tags
+  };
+  if (!editId) {
+    data.coordinatorId = sess.userId;
+    data.coordinatorName = sess.name;
+  }
+
+  const errors = APP.validateActivityForm(data);
+  if (errors.length) { UI.applyErrors(errors); return; }
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled=true; btn.textContent='Saving…';
+
+  if (editId) {
+    await APP.updateActivity(editId, data);
+    UI.toast('Activity updated successfully!','success');
+  } else {
+    await APP.addActivity(data);
+    UI.toast('Activity submitted for approval!','success');
+  }
+  setTimeout(()=>window.location.href= sess.role === 'admin' ? 'dashboard-admin.html' : '/dashboard-coordinator/', 1200);
+});
+</script>
+</body>
+</html>
