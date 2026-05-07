@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+
+<title>Admin Dashboard — CAMS</title>
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/neumorphism.css' %}">
+
+</head>
+
+<body>
+
+<div class="bg-mesh"></div>
+
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+  <a href="/" class="navbar-brand">
+
+    <div class="brand-icon">🎓</div>
+
+    CAMS
+
+  </a>
+
+  <ul class="navbar-nav">
+
+    <li>
+      <a href="/activities/">
+        Activities
+      </a>
+    </li>
+
+  </ul>
+
+  <div class="navbar-actions">
+
+    <a
+      href="/logout/"
+      class="btn btn-danger btn-sm"
+    >
+      Logout
+    </a>
+
+  </div>
+
+</nav>
+
+
+<main class="page-container">
+
+  <div class="dashboard-layout">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+      <div class="sidebar-section">
+
+        <div class="sidebar-section-title">
+          Main
+        </div>
+
+        <ul class="sidebar-nav">
+
+          <li>
+            <a
+              href="#section-overview"
+              class="active"
+            >
+              <span class="nav-icon">📊</span>
+              Overview
+            </a>
+          </li>
+
+          <li>
+            <a href="#section-activities">
+              <span class="nav-icon">📋</span>
+              Activities
+            </a>
+          </li>
+
+          <li>
+            <a href="#section-users">
+              <span class="nav-icon">👥</span>
+              Users
+            </a>
+          </li>
+
+          <li>
+            <a href="#section-enrollments">
+              <span class="nav-icon">🎟️</span>
+              Enrollments
+            </a>
+          </li>
+
+          <li>
+            <a href="/logout/">
+              <span class="nav-icon">🚪</span>
+              Logout
+            </a>
+          </li>
+
+        </ul>
+
+      </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <div class="main-content">
+
+      <!-- OVERVIEW -->
+
+      <section id="section-overview">
+
+        <div class="page-header">
+
+          <div>
+
+            <h1 class="page-title">
+              Admin Dashboard
+            </h1>
+
+            <p
+              class="page-subtitle"
+              id="welcome-msg"
+            >
+              Welcome back!
+            </p>
+
+          </div>
+
+          <div>
+
+            <span class="badge badge-admin">
+              Administrator
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- STATS -->
+
+        <div
+          class="stat-grid grid mb-32"
+          id="stats-grid"
+        >
+        </div>
+
+      </section>
+
+
+      <!-- ACTIVITIES -->
+
+      <section
+        id="section-activities"
+        style="margin-top:40px"
+      >
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <div class="card-title">
+
+              <div
+                class="icon"
+                style="background:rgba(124,58,237,.15)"
+              >
+                📋
+              </div>
+
+              All Activities
+
+            </div>
+
+          </div>
+
+
+          <div class="table-wrapper">
+
+            <table>
+
+              <thead>
+
+                <tr>
+
+                  <th>Title</th>
+
+                  <th>Category</th>
+
+                  <th>Date</th>
+
+                  <th>Status</th>
+
+                  <th>Actions</th>
+
+                </tr>
+
+              </thead>
+
+              <tbody id="admin-acts-tbody"></tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- USERS -->
+
+      <section
+        id="section-users"
+        style="margin-top:40px"
+      >
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <div class="card-title">
+
+              <div
+                class="icon"
+                style="background:rgba(59,130,246,.15)"
+              >
+                👥
+              </div>
+
+              Registered Users
+
+            </div>
+
+          </div>
+
+
+          <div class="table-wrapper">
+
+            <table>
+
+              <thead>
+
+                <tr>
+
+                  <th>Name</th>
+
+                  <th>Email</th>
+
+                  <th>Role</th>
+
+                  <th>Department</th>
+
+                </tr>
+
+              </thead>
+
+              <tbody id="admin-users-tbody"></tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ENROLLMENTS -->
+
+      <section
+        id="section-enrollments"
+        style="margin-top:40px;padding-bottom:60px"
+      >
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <div class="card-title">
+
+              <div
+                class="icon"
+                style="background:rgba(16,185,129,.15)"
+              >
+                🎟️
+              </div>
+
+              All Enrollments
+
+            </div>
+
+          </div>
+
+
+          <div class="table-wrapper">
+
+            <table>
+
+              <thead>
+
+                <tr>
+
+                  <th>Student</th>
+
+                  <th>Activity</th>
+
+                  <th>Status</th>
+
+                </tr>
+
+              </thead>
+
+              <tbody id="admin-enrolls-tbody"></tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </div>
+
+</main>
+
+
+<script src="{% static 'js/auth.js' %}"></script>
+<script src="{% static 'js/app.js' %}"></script>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', async () => {
+
+    //AUTH.requireAuth(['admin']);
+
+    const sess = AUTH.getSession();
+
+    if (!sess) {
+
+        window.location.href = '/login/';
+        return;
+    }
+
+    document.getElementById('welcome-msg').textContent =
+        `Welcome back, ${sess.name}!`;
+
+    await renderStats();
+
+    await renderActivities();
+
+    await renderUsers();
+
+    await renderEnrollments();
+});
+
+
+async function renderStats() {
+
+    const activities = await APP.getActivities();
+
+    const enrolls = await APP.getEnrollments();
+
+    const totalUsers = 3;
+
+    const approved = activities.filter(
+        a => a.status === 'approved'
+    );
+
+    document.getElementById('stats-grid').innerHTML = `
+
+        <div class="stat-card">
+
+            <div class="stat-value">
+                ${totalUsers}
+            </div>
+
+            <div class="stat-label">
+                Users
+            </div>
+
+        </div>
+
+        <div class="stat-card">
+
+            <div class="stat-value">
+                ${activities.length}
+            </div>
+
+            <div class="stat-label">
+                Activities
+            </div>
+
+        </div>
+
+        <div class="stat-card">
+
+            <div class="stat-value">
+                ${approved.length}
+            </div>
+
+            <div class="stat-label">
+                Approved
+            </div>
+
+        </div>
+
+        <div class="stat-card">
+
+            <div class="stat-value">
+                ${enrolls.length}
+            </div>
+
+            <div class="stat-label">
+                Enrollments
+            </div>
+
+        </div>
+
+    `;
+}
+
+
+async function renderActivities() {
+
+    const activities = await APP.getActivities();
+
+    const tb = document.getElementById('admin-acts-tbody');
+
+    if (!activities.length) {
+
+        tb.innerHTML = `
+
+            <tr>
+
+                <td colspan="5">
+
+                    No activities found
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+    }
+
+    tb.innerHTML = activities.map(a => `
+
+        <tr>
+
+            <td>${a.title}</td>
+
+            <td>${a.category}</td>
+
+            <td>${a.date}</td>
+
+            <td>
+
+                <span class="badge">
+
+                    ${a.status}
+
+                </span>
+
+            </td>
+
+            <td>
+
+                <div style="display:flex;gap:6px">
+
+                    <a
+                      href="/approve/${a.id}/"
+                      class="btn btn-success btn-sm"
+                    >
+                      ✓
+                    </a>
+
+                    <a
+                      href="/reject/${a.id}/"
+                      class="btn btn-danger btn-sm"
+                    >
+                      ✗
+                    </a>
+
+                </div>
+
+            </td>
+
+        </tr>
+
+    `).join('');
+}
+
+
+async function renderUsers() {
+
+    const tb = document.getElementById('admin-users-tbody');
+
+    tb.innerHTML = `
+
+        <tr>
+
+            <td>Admin</td>
+
+            <td>admin@cams.com</td>
+
+            <td>admin</td>
+
+            <td>CSE</td>
+
+        </tr>
+
+    `;
+}
+
+
+async function renderEnrollments() {
+
+    const enrolls = await APP.getEnrollments();
+
+    const tb = document.getElementById('admin-enrolls-tbody');
+
+    if (!enrolls.length) {
+
+        tb.innerHTML = `
+
+            <tr>
+
+                <td colspan="3">
+
+                    No enrollments found
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+    }
+
+    tb.innerHTML = enrolls.map(e => `
+
+        <tr>
+
+            <td>${e.studentName || 'Student'}</td>
+
+            <td>${e.activityTitle}</td>
+
+            <td>
+
+                <span class="badge">
+
+                    ${e.status}
+
+                </span>
+
+            </td>
+
+        </tr>
+
+    `).join('');
+}
+
+</script>
+
+</body>
+</html>

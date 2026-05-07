@@ -1,248 +1,259 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Register — CAMS</title>
-<meta name="description" content="Create your CAMS account as a student or coordinator."/>
-{% load static %}
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
-<link rel="stylesheet" href="{% static 'css/neumorphism.css' %}">
-</head>
-<body>
-<div class="bg-mesh"></div>
-<nav class="navbar">
-  <a href="/" class="navbar-brand"><div class="brand-icon">🎓</div>CAMS</a>
-  <ul class="navbar-nav">
-    <li><a href="/">Home</a></li>
-    <li><a href=" /activities/">Activities</a></li>
-  </ul>
-  <div class="navbar-actions">
-    <a href="/login/" class="btn btn-outline btn-sm">Sign In</a>
-  </div>
-</nav>
-
-<main class="auth-page" style="padding-top:100px;padding-bottom:48px">
-  <div class="auth-card animate-scale" style="max-width:580px">
-    <div class="auth-logo">
-      <div class="logo-icon">📝</div>
-      <h1>Create Account</h1>
-      <p>Join CAMS as a student or coordinator</p>
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Register — CAMS</title>
+  <meta name="description" content="Create your CAMS account as a student or coordinator."/>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/neumorphism.css' %}">
+  </head>
+  <body>
+  <div class="bg-mesh"></div>
+  <nav class="navbar">
+    <a href="/" class="navbar-brand"><div class="brand-icon">🎓</div>CAMS</a>
+    <ul class="navbar-nav">
+      <li><a href="/">Home</a></li>
+      <li><a href=" /activities/">Activities</a></li>
+    </ul>
+    <div class="navbar-actions">
+      <a href="/login/" class="btn btn-outline btn-sm">Sign In</a>
     </div>
+  </nav>
 
-    <div class="alert alert-error hidden" id="general-error-box">
-      <span>⚠️</span><span id="general-error"></span>
+  <main class="auth-page" style="padding-top:100px;padding-bottom:48px">
+    <div class="auth-card animate-scale" style="max-width:580px">
+      <div class="auth-logo">
+        <div class="logo-icon">📝</div>
+        <h1>Create Account</h1>
+        <p>Join CAMS as a student or coordinator</p>
+      </div>
+
+      <div class="alert alert-error hidden" id="general-error-box">
+        <span>⚠️</span><span id="general-error"></span>
+      </div>
+
+      <form id="register-form" novalidate>
+        <!-- Row 1: Name + Role -->
+        <div class="grid-2" style="gap:16px">
+          <div class="form-group">
+            <label class="form-label" for="name">Full Name <span class="required">*</span></label>
+            <div class="form-icon-wrap">
+              <span class="field-icon">👤</span>
+              <input type="text" class="form-control" id="name" placeholder="John Doe"/>
+            </div>
+            <span class="form-error" id="name-error"></span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="role">Role <span class="required">*</span></label>
+            <select class="form-control" id="role">
+              <option value="">-- Select Role --</option>
+              <option value="student">🎒 Student</option>
+              <option value="coordinator">🎯 Coordinator</option>
+            </select>
+            <span class="form-error" id="role-error"></span>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label class="form-label" for="reg-email">Email Address <span class="required">*</span></label>
+          <div class="form-icon-wrap">
+            <span class="field-icon">✉️</span>
+            <input type="email" class="form-control" id="reg-email" placeholder="you@college.edu" autocomplete="email"/>
+          </div>
+          <span class="form-error" id="reg-email-error"></span>
+        </div>
+
+        <!-- Row 2: Password + Confirm -->
+        <div class="grid-2" style="gap:16px">
+          <div class="form-group">
+            <label class="form-label" for="reg-password">Password <span class="required">*</span></label>
+            <div class="form-icon-wrap">
+              <span class="field-icon">🔒</span>
+              <input type="password" class="form-control" id="reg-password" placeholder="Create password"/>
+              <span class="field-icon-right" onclick="toggleField('reg-password')">👁️</span>
+            </div>
+            <div class="password-strength" id="pw-strength-box" style="display:none">
+              <div class="strength-bar"><div class="strength-fill" id="strength-fill"></div></div>
+              <span class="strength-text" id="strength-text"></span>
+            </div>
+            <span class="form-hint">Min 8 chars, 1 uppercase, 1 number, 1 special char</span>
+            <span class="form-error" id="reg-password-error"></span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="confirm-password">Confirm Password <span class="required">*</span></label>
+            <div class="form-icon-wrap">
+              <span class="field-icon">🔒</span>
+              <input type="password" class="form-control" id="confirm-password" placeholder="Repeat password"/>
+              <span class="field-icon-right" onclick="toggleField('confirm-password')">👁️</span>
+            </div>
+            <span class="form-error" id="confirm-password-error"></span>
+          </div>
+        </div>
+
+        <!-- Row 3: Department + Phone -->
+        <div class="grid-2" style="gap:16px">
+          <div class="form-group">
+            <label class="form-label" for="dept">Department <span class="required">*</span></label>
+            <select class="form-control" id="dept">
+              <option value="">-- Select Dept --</option>
+              <option>Computer Science</option>
+              <option>Electronics</option>
+              <option>Mechanical</option>
+              <option>Civil</option>
+              <option>Electrical</option>
+              <option>Chemical</option>
+              <option>Information Technology</option>
+              <option>Administration</option>
+            </select>
+            <span class="form-error" id="dept-error"></span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="phone">Phone Number</label>
+            <div class="form-icon-wrap">
+              <span class="field-icon">📱</span>
+              <input type="tel" class="form-control" id="phone" placeholder="10-digit number" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')"/>
+            </div>
+            <span class="form-error" id="phone-error"></span>
+          </div>
+        </div>
+
+        <!-- Row 4: Student ID / Staff ID + DOB -->
+        <div class="grid-2" style="gap:16px">
+          <div class="form-group" id="studentid-grp">
+            <label class="form-label" for="studentId">ID</label>
+            <div class="form-icon-wrap">
+              <span class="field-icon">🆔</span>
+              <input type="text" class="form-control" id="studentId" placeholder="e.g. STU2024001"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="dob">Date of Birth</label>
+            <input type="date" class="form-control" id="dob"/>
+          </div>
+        </div>
+
+        <!-- Terms -->
+        <div class="form-group">
+          <label class="form-check">
+            <input type="checkbox" id="terms"/>
+            <span class="form-check-label">I agree to the <a href="#" style="color:var(--accent-light)">Terms &amp; Conditions</a> and <a href="#" style="color:var(--accent-light)">Privacy Policy</a> <span class="required">*</span></span>
+          </label>
+          <span class="form-error" id="terms-error"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block btn-lg" id="reg-btn">Create Account</button>
+        <button type="button" class="btn btn-ghost btn-block" onclick="resetForm()" style="margin-top:10px">Reset Form</button>
+      </form>
+
+      <div class="text-center mt-20" style="font-size:.88rem;color:var(--text-muted)">
+        Already have an account? <a href="/login/" style="color:var(--accent-light);font-weight:600">Sign in</a>
+      </div>
     </div>
+  </main>
 
-    <form id="register-form" novalidate>
-      <!-- Row 1: Name + Role -->
-      <div class="grid-2" style="gap:16px">
-        <div class="form-group">
-          <label class="form-label" for="name">Full Name <span class="required">*</span></label>
-          <div class="form-icon-wrap">
-            <span class="field-icon">👤</span>
-            <input type="text" class="form-control" id="name" placeholder="John Doe"/>
-          </div>
-          <span class="form-error" id="name-error"></span>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="role">Role <span class="required">*</span></label>
-          <select class="form-control" id="role">
-            <option value="">-- Select Role --</option>
-            <option value="student">🎒 Student</option>
-            <option value="coordinator">🎯 Coordinator</option>
-          </select>
-          <span class="form-error" id="role-error"></span>
-        </div>
-      </div>
+  <script src="{% static 'js/auth.js' %}"></script>
+  <script src="{% static 'js/app.js' %}"></script>
+  <script>
 
-      <!-- Email -->
-      <div class="form-group">
-        <label class="form-label" for="reg-email">Email Address <span class="required">*</span></label>
-        <div class="form-icon-wrap">
-          <span class="field-icon">✉️</span>
-          <input type="email" class="form-control" id="reg-email" placeholder="you@college.edu" autocomplete="email"/>
-        </div>
-        <span class="form-error" id="reg-email-error"></span>
-      </div>
+document.addEventListener('DOMContentLoaded', () => {
 
-      <!-- Row 2: Password + Confirm -->
-      <div class="grid-2" style="gap:16px">
-        <div class="form-group">
-          <label class="form-label" for="reg-password">Password <span class="required">*</span></label>
-          <div class="form-icon-wrap">
-            <span class="field-icon">🔒</span>
-            <input type="password" class="form-control" id="reg-password" placeholder="Create password"/>
-            <span class="field-icon-right" onclick="toggleField('reg-password')">👁️</span>
-          </div>
-          <div class="password-strength" id="pw-strength-box" style="display:none">
-            <div class="strength-bar"><div class="strength-fill" id="strength-fill"></div></div>
-            <span class="strength-text" id="strength-text"></span>
-          </div>
-          <span class="form-hint">Min 8 chars, 1 uppercase, 1 number, 1 special char</span>
-          <span class="form-error" id="reg-password-error"></span>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="confirm-password">Confirm Password <span class="required">*</span></label>
-          <div class="form-icon-wrap">
-            <span class="field-icon">🔒</span>
-            <input type="password" class="form-control" id="confirm-password" placeholder="Repeat password"/>
-            <span class="field-icon-right" onclick="toggleField('confirm-password')">👁️</span>
-          </div>
-          <span class="form-error" id="confirm-password-error"></span>
-        </div>
-      </div>
+    //AUTH.redirectIfLoggedIn();
 
-      <!-- Row 3: Department + Phone -->
-      <div class="grid-2" style="gap:16px">
-        <div class="form-group">
-          <label class="form-label" for="dept">Department <span class="required">*</span></label>
-          <select class="form-control" id="dept">
-            <option value="">-- Select Dept --</option>
-            <option>Computer Science</option>
-            <option>Electronics</option>
-            <option>Mechanical</option>
-            <option>Civil</option>
-            <option>Electrical</option>
-            <option>Chemical</option>
-            <option>Information Technology</option>
-            <option>Administration</option>
-          </select>
-          <span class="form-error" id="dept-error"></span>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="phone">Phone Number</label>
-          <div class="form-icon-wrap">
-            <span class="field-icon">📱</span>
-            <input type="tel" class="form-control" id="phone" placeholder="10-digit number" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')"/>
-          </div>
-          <span class="form-error" id="phone-error"></span>
-        </div>
-      </div>
+});
 
-      <!-- Row 4: Student ID / Staff ID + DOB -->
-      <div class="grid-2" style="gap:16px">
-        <div class="form-group" id="studentid-grp">
-          <label class="form-label" for="studentId">ID</label>
-          <div class="form-icon-wrap">
-            <span class="field-icon">🆔</span>
-            <input type="text" class="form-control" id="studentId" placeholder="e.g. STU2024001"/>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="dob">Date of Birth</label>
-          <input type="date" class="form-control" id="dob"/>
-        </div>
-      </div>
-
-      <!-- Terms -->
-      <div class="form-group">
-        <label class="form-check">
-          <input type="checkbox" id="terms"/>
-          <span class="form-check-label">I agree to the <a href="#" style="color:var(--accent-light)">Terms &amp; Conditions</a> and <a href="#" style="color:var(--accent-light)">Privacy Policy</a> <span class="required">*</span></span>
-        </label>
-        <span class="form-error" id="terms-error"></span>
-      </div>
-
-      <button type="submit" class="btn btn-primary btn-block btn-lg" id="reg-btn">Create Account</button>
-      <button type="button" class="btn btn-ghost btn-block" onclick="resetForm()" style="margin-top:10px">Reset Form</button>
-    </form>
-
-    <div class="text-center mt-20" style="font-size:.88rem;color:var(--text-muted)">
-      Already have an account? <a href="/login/" style="color:var(--accent-light);font-weight:600">Sign in</a>
-    </div>
-  </div>
-</main>
-
-<script src="js/auth.js"></script>
-<script src="js/app.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', () => { AUTH.redirectIfLoggedIn(); });
 
 function toggleField(id) {
-  const el = document.getElementById(id);
-  el.type = el.type === 'password' ? 'text' : 'password';
+
+    const el = document.getElementById(id);
+
+    el.type = el.type === 'password'
+        ? 'text'
+        : 'password';
 }
+
 
 function resetForm() {
-  document.getElementById('register-form').reset();
-  document.querySelectorAll('.form-control').forEach(el => { el.classList.remove('is-valid','is-invalid'); });
-  document.querySelectorAll('.form-error.show').forEach(el => el.classList.remove('show'));
-  document.getElementById('pw-strength-box').style.display='none';
-  document.getElementById('general-error-box').classList.add('hidden');
+
+    document.getElementById('register-form').reset();
 }
 
-// Password strength meter
+
 document.getElementById('reg-password').addEventListener('input', function() {
-  const s = AUTH.getPasswordStrength(this.value);
-  const box = document.getElementById('pw-strength-box');
-  const fill = document.getElementById('strength-fill');
-  const txt = document.getElementById('strength-text');
-  if (this.value) {
-    box.style.display = 'block';
-    fill.className = 'strength-fill ' + (s.class||'');
-    txt.textContent = s.label ? `Strength: ${s.label}` : '';
-  } else { box.style.display = 'none'; }
+
+    const s = AUTH.getPasswordStrength(this.value);
+
+    const box = document.getElementById('pw-strength-box');
+
+    const fill = document.getElementById('strength-fill');
+
+    const txt = document.getElementById('strength-text');
+
+    if (this.value) {
+
+        box.style.display = 'block';
+
+        fill.style.width = (s.level * 25) + '%';
+
+        txt.textContent = s.label;
+
+    } else {
+
+        box.style.display = 'none';
+    }
 });
 
-// Live validation
-const liveRules = [
-  { id:'name', validate: v => (!v.trim()||v.trim().length<2) ? 'Full name must be at least 2 characters.' : null },
-  { id:'role', validate: v => !v ? 'Please select a role.' : null },
-  { id:'reg-email', validate: v => !AUTH.isValidEmail(v) ? 'Enter a valid email address.' : null },
-  { id:'reg-password', validate: v => AUTH.validatePassword(v) },
-  { id:'confirm-password', validate: v => v !== document.getElementById('reg-password').value ? 'Passwords do not match.' : null },
-  { id:'dept', validate: v => !v ? 'Please select your department.' : null },
-  { id:'phone', validate: v => v && !AUTH.isValidPhone(v) ? 'Enter a valid 10-digit phone number.' : null },
-];
-liveRules.forEach(({ id, validate }) => {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.addEventListener('blur', () => {
-    const err = validate(el.value, el);
-    if (err) UI.setFieldError(id, err);
-    else UI.setFieldValid(id);
-  });
-  el.addEventListener('input', () => { if (el.classList.contains('is-invalid')) UI.clearFieldError(id); });
-});
 
 document.getElementById('register-form').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  document.getElementById('general-error-box').classList.add('hidden');
-  UI.clearAllErrors('register-form');
 
-  const data = {
-    name: document.getElementById('name').value.trim(),
-    email: document.getElementById('reg-email').value.trim(),
-    password: document.getElementById('reg-password').value,
-    confirmPassword: document.getElementById('confirm-password').value,
-    role: document.getElementById('role').value,
-    dept: document.getElementById('dept').value,
-    phone: document.getElementById('phone').value.trim(),
-    studentId: document.getElementById('studentId').value.trim(),
-    dob: document.getElementById('dob').value,
-    terms: document.getElementById('terms').checked,
-  };
+    e.preventDefault();
 
-  const res = await AUTH.register(data);
-  if (res.ok) {
-    UI.toast('Account created successfully! Please sign in.', 'success', 4000);
-    setTimeout(() => { window.location.href = '/login/'; }, 1500);
-  } else {
-    const btn = document.getElementById('reg-btn');
-    // Map errors to form fields (register uses different IDs)
-    res.errors.forEach(err => {
-      const idMap = { email:'reg-email', password:'reg-password' };
-      const fieldId = idMap[err.field] || err.field;
-      if (err.field === 'general') {
-        document.getElementById('general-error').textContent = err.msg;
-        document.getElementById('general-error-box').classList.remove('hidden');
-      } else {
-        UI.setFieldError(fieldId, err.msg);
-      }
-    });
-  }
+    const data = {
+
+        name: document.getElementById('name').value.trim(),
+
+        email: document.getElementById('reg-email').value.trim(),
+
+        password: document.getElementById('reg-password').value,
+
+        confirmPassword: document.getElementById('confirm-password').value,
+
+        role: document.getElementById('role').value,
+
+        dept: document.getElementById('dept').value,
+
+        phone: document.getElementById('phone').value.trim(),
+
+        studentId: document.getElementById('studentId').value.trim(),
+
+        dob: document.getElementById('dob').value,
+
+        terms: document.getElementById('terms').checked,
+    };
+
+    const result = await AUTH.register(data);
+
+    if (result.ok) {
+
+        alert('Account created successfully!');
+
+        window.location.href = '/login/';
+    }
+
+    else {
+
+        if (result.errors) {
+
+            result.errors.forEach(err => {
+
+                alert(err.msg);
+            });
+        }
+    }
 });
+
 </script>
-</body>
-</html>
+  </body>
+  </html>

@@ -1,107 +1,330 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8"/>
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1.0"
+/>
+
 <title>Activities — CAMS</title>
 
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
 <link rel="stylesheet" href="{% static 'css/neumorphism.css' %}">
+
 </head>
 
 <body>
+
 <div class="bg-mesh"></div>
 
+
+<!-- NAVBAR -->
+
 <nav class="navbar">
+
   <a href="/" class="navbar-brand">
-    <div class="brand-icon">🎓</div>CAMS
+
+    <div class="brand-icon">🎓</div>
+
+    CAMS
+
   </a>
 
+
   <ul class="navbar-nav">
-    <li><a href="/">Home</a></li>
-    <li><a href="/activities/" class="active">Activities</a></li>
+
+    <li>
+      <a href="/">
+        Home
+      </a>
+    </li>
+
+    <li>
+      <a
+        href="/activities/"
+        class="active"
+      >
+        Activities
+      </a>
+    </li>
+
   </ul>
 
-  <div class="navbar-actions">
-    <a href="/login/" class="btn btn-outline btn-sm">Login</a>
-    <a href="/register/" class="btn btn-primary btn-sm">Register</a>
+
+  <div
+    class="navbar-actions"
+    id="navbar-actions"
+  >
+
+    <a
+      href="/login/"
+      class="btn btn-outline btn-sm"
+    >
+      Login
+    </a>
+
+    <a
+      href="/register/"
+      class="btn btn-primary btn-sm"
+    >
+      Register
+    </a>
+
   </div>
+
 </nav>
 
-<main class="page-container">
-  <div class="container" style="padding-top:40px;padding-bottom:60px">
 
-    <!-- Header -->
+<main class="page-container">
+
+  <div
+    class="container"
+    style="padding-top:40px;padding-bottom:60px"
+  >
+
+    <!-- HEADER -->
+
     <div class="page-header">
+
       <div>
-        <h1 class="page-title">📋 All Activities</h1>
-        <p class="page-subtitle">Discover and enroll</p>
+
+        <h1 class="page-title">
+          📋 All Activities
+        </h1>
+
+        <p class="page-subtitle">
+          Discover and enroll
+        </p>
+
       </div>
+
     </div>
 
-    <!-- Stats -->
+
+    <!-- STATS -->
+
     <div class="stat-grid grid mb-32">
 
       <div class="stat-card">
-        <div class="stat-value">{{ total }}</div>
-        <div class="stat-label">Total</div>
+
+        <div class="stat-value">
+          {{ total }}
+        </div>
+
+        <div class="stat-label">
+          Total
+        </div>
+
       </div>
 
-      <div class="stat-card">
-        <div class="stat-value">{{ approved }}</div>
-        <div class="stat-label">Approved</div>
-      </div>
 
       <div class="stat-card">
-        <div class="stat-value">{{ sports }}</div>
-        <div class="stat-label">Sports</div>
+
+        <div class="stat-value">
+          {{ approved }}
+        </div>
+
+        <div class="stat-label">
+          Approved
+        </div>
+
       </div>
 
-      <div class="stat-card">
-        <div class="stat-value">{{ cultural }}</div>
-        <div class="stat-label">Cultural</div>
-      </div>
 
       <div class="stat-card">
-        <div class="stat-value">{{ technical }}</div>
-        <div class="stat-label">Technical</div>
+
+        <div class="stat-value">
+          {{ sports }}
+        </div>
+
+        <div class="stat-label">
+          Sports
+        </div>
+
       </div>
 
+
       <div class="stat-card">
-        <div class="stat-value">{{ academic }}</div>
-        <div class="stat-label">Academic</div>
+
+        <div class="stat-value">
+          {{ cultural }}
+        </div>
+
+        <div class="stat-label">
+          Cultural
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-value">
+          {{ technical }}
+        </div>
+
+        <div class="stat-label">
+          Technical
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-value">
+          {{ academic }}
+        </div>
+
+        <div class="stat-label">
+          Academic
+        </div>
+
       </div>
 
     </div>
 
-    <!-- Activities Grid -->
+
+    <!-- ACTIVITIES -->
+
     <div class="activity-grid">
 
       {% for a in activities %}
+
       <div class="activity-card">
 
-        <h3>{{ a.title }}</h3>
+        <h3>
+          {{ a.title }}
+        </h3>
 
-        <p>📅 {{ a.date }} | 📍 {{ a.venue }}</p>
+        <p>
+          📅 {{ a.date }}
+          |
+          📍 {{ a.venue }}
+        </p>
 
-        <p>{{ a.desc }}</p>
+        <p>
+          {{ a.desc }}
+        </p>
 
-        <span class="badge">{{ a.category }}</span>
-        <span class="badge">{{ a.status }}</span>
 
-        <div style="margin-top:10px">
-          <a href="/enroll/{{ a.id }}/" class="btn btn-primary btn-sm">
-            Enroll
-          </a>
+        <div
+          style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"
+        >
+
+          <span class="badge">
+            {{ a.category }}
+          </span>
+
+          <span class="badge">
+            {{ a.status }}
+          </span>
+
+        </div>
+
+
+        <div style="margin-top:14px">
+
+          {% if a.status == "approved" %}
+
+            <a
+              href="/enroll/{{ a.id }}/"
+              class="btn btn-primary btn-sm"
+            >
+              Enroll
+            </a>
+
+          {% else %}
+
+            <button
+              class="btn btn-ghost btn-sm"
+              disabled
+            >
+              Not Available
+            </button>
+
+          {% endif %}
+
         </div>
 
       </div>
+
+      {% empty %}
+
+      <div class="card">
+
+        <h3>
+          No activities found
+        </h3>
+
+      </div>
+
       {% endfor %}
 
     </div>
 
   </div>
+
 </main>
+
+
+<script src="{% static 'js/auth.js' %}"></script>
+<script src="{% static 'js/app.js' %}"></script>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const sess = AUTH.getSession();
+
+    if (sess) {
+
+        const nav = document.getElementById('navbar-actions');
+
+        let dashboard = '/';
+
+        if (sess.role === 'student') {
+
+            dashboard = '/student-dashboard/';
+        }
+
+        else if (sess.role === 'coordinator') {
+
+            dashboard = '/coordinator-dashboard/';
+        }
+
+        else if (sess.role === 'admin') {
+
+            dashboard = '/admin-dashboard/';
+        }
+
+        nav.innerHTML = `
+
+            <a
+              href="${dashboard}"
+              class="btn btn-primary btn-sm"
+            >
+              Dashboard
+            </a>
+
+            <a
+              href="/logout/"
+              class="btn btn-danger btn-sm"
+            >
+              Logout
+            </a>
+
+        `;
+    }
+});
+
+</script>
 
 </body>
 </html>

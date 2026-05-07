@@ -28,4 +28,8 @@ urlpatterns = [
 
     path('approve-user/<int:id>/', views.approve_user),
 
+    path('api/activities/', views.api_activities),
+
+    path('api/enrollments/', views.api_enrollments),
+
 ]
