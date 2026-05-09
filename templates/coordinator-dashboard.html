@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+
+<title>Coordinator Dashboard — CAMS</title>
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/neumorphism.css' %}">
+
+</head>
+
+<body>
+
+<div class="bg-mesh"></div>
+
+<nav class="navbar">
+
+  <a href="/" class="navbar-brand">
+
+    <div class="brand-icon">🎓</div>
+
+    CAMS
+
+  </a>
+
+  <ul class="navbar-nav">
+
+    <li>
+      <a href="/activities/">
+        Activities
+      </a>
+    </li>
+
+    <li>
+      <a href="/submit-activity/">
+        Submit Activity
+      </a>
+    </li>
+
+  </ul>
+
+  <div class="navbar-actions">
+
+    <a
+      href="/logout/"
+      class="btn btn-danger btn-sm"
+    >
+      Logout
+    </a>
+
+  </div>
+
+</nav>
+
+
+<main class="page-container">
+
+  <div class="dashboard-layout">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+      <div class="sidebar-section">
+
+        <div class="sidebar-section-title">
+          Menu
+        </div>
+
+        <ul class="sidebar-nav">
+
+          <li>
+            <a
+              href="/coordinator-dashboard/"
+              class="active"
+            >
+              <span class="nav-icon">📊</span>
+              Dashboard
+            </a>
+          </li>
+
+          <li>
+            <a href="/submit-activity/">
+              <span class="nav-icon">➕</span>
+              New Activity
+            </a>
+          </li>
+
+          <li>
+            <a href="/activities/">
+              <span class="nav-icon">📋</span>
+              Browse Activities
+            </a>
+          </li>
+
+          <li>
+            <a href="/logout/">
+              <span class="nav-icon">🚪</span>
+              Logout
+            </a>
+          </li>
+
+        </ul>
+
+      </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <div class="main-content">
+
+      <!-- HEADER -->
+
+      <div class="page-header animate-fade">
+
+        <div>
+
+          <h1 class="page-title">
+            Coordinator Dashboard
+          </h1>
+
+          <p
+            class="page-subtitle"
+            id="welcome-msg"
+          >
+            Welcome, {{ user.name }}!
+          </p>
+
+        </div>
+
+        <div style="display:flex;gap:12px">
+
+          <a
+            href="/submit-activity/"
+            class="btn btn-primary"
+          >
+            ➕ New Activity
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- STATS -->
+
+      <div class="stat-grid grid mb-32">
+
+        <div class="stat-card">
+
+          <div class="stat-value">
+            {{ total_activities }}
+          </div>
+
+          <div class="stat-label">
+            Activities
+          </div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-value">
+            {{ approved }}
+          </div>
+
+          <div class="stat-label">
+            Approved
+          </div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-value">
+            {{ pending }}
+          </div>
+
+          <div class="stat-label">
+            Pending
+          </div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-value">
+            {{ total_enrollments }}
+          </div>
+
+          <div class="stat-label">
+            Enrollments
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ACTIVITIES -->
+
+      <div class="card animate-slide mb-24">
+
+        <div class="card-header">
+
+          <div class="card-title">
+
+            <div
+              class="icon"
+              style="background:rgba(59,130,246,.15)"
+            >
+              📋
+            </div>
+
+            My Activities
+
+          </div>
+
+        </div>
+
+        <div class="table-wrapper">
+
+          <table>
+
+            <thead>
+
+              <tr>
+
+                <th>Title</th>
+
+                <th>Category</th>
+
+                <th>Date</th>
+
+                <th>Status</th>
+
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              {% for a in activities %}
+
+              <tr>
+
+                <td>
+                  {{ a.title }}
+                </td>
+
+                <td>
+                  {{ a.category }}
+                </td>
+
+                <td>
+                  {{ a.date }}
+                </td>
+
+                <td>
+
+                  <span class="badge">
+                    {{ a.status }}
+                  </span>
+
+                </td>
+
+              </tr>
+
+              {% empty %}
+
+              <tr>
+
+                <td colspan="4">
+
+                  No activities yet
+
+                </td>
+
+              </tr>
+
+              {% endfor %}
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+
+      <!-- ENROLLMENTS -->
+
+      <div class="card animate-slide">
+
+        <div class="card-header">
+
+          <div class="card-title">
+
+            <div
+              class="icon"
+              style="background:rgba(16,185,129,.15)"
+            >
+              🎟️
+            </div>
+
+            Enrollments
+
+          </div>
+
+        </div>
+
+        <div class="table-wrapper">
+
+          <table>
+
+            <thead>
+
+              <tr>
+
+                <th>Student</th>
+
+                <th>Activity</th>
+
+                <th>Status</th>
+
+                <th>Actions</th>
+
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              {% for e in enrollments %}
+
+              <tr>
+
+                <td>
+                  {{ e.student.name }}
+                </td>
+
+                <td>
+                  {{ e.activity.title }}
+                </td>
+
+                <td>
+
+                  <span class="badge">
+                    {{ e.status }}
+                  </span>
+
+                </td>
+
+                <td>
+
+    {% if e.status == 'pending' %}
+
+    <div style="display:flex;gap:8px">
+
+        <a
+          href="/approve-enrollment/{{ e.id }}/"
+          class="btn btn-success btn-sm"
+        >
+          ✓ Approve
+        </a>
+
+        <a
+          href="/reject-enrollment/{{ e.id }}/"
+          class="btn btn-danger btn-sm"
+        >
+          ✕ Reject
+        </a>
+
+    </div>
+
+    {% elif e.status == 'approved' %}
+
+    <span class="badge badge-success">
+        Approved
+    </span>
+
+    {% elif e.status == 'rejected' %}
+
+    <span class="badge badge-error">
+        Rejected
+    </span>
+
+    {% endif %}
+
+</td>
+
+              </tr>
+
+              {% empty %}
+
+              <tr>
+
+                <td colspan="4">
+
+                  No enrollments yet
+
+                </td>
+
+              </tr>
+
+              {% endfor %}
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</main>
+
+<script src="{% static 'js/auth.js' %}"></script>
+<script src="{% static 'js/app.js' %}"></script>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const sess = AUTH.getSession();
+
+    if (!sess) {
+
+        window.location.href = '/login/';
+        return;
+    }
+
+    document.getElementById('welcome-msg').textContent =
+        `Welcome, ${sess.name}!`;
+});
+
+</script>
+
+</body>
+</html>

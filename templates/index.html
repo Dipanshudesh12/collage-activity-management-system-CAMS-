@@ -51,18 +51,6 @@
       </a>
     </li>
 
-    <li>
-      <a href="/login/">
-        Login
-      </a>
-    </li>
-
-    <li>
-      <a href="/register/">
-        Register
-      </a>
-    </li>
-
   </ul>
 
 
@@ -366,32 +354,15 @@
         <div class="footer-brand">
           🎓 CAMS
         </div>
-
-        <div class="footer-links">
-
-          <a href="/activities/">
-            Activities
-          </a>
-
-          <a href="/login/">
-            Login
-          </a>
-
-          <a href="/register/">
-            Register
-          </a>
-
-        </div>
-
-      </div>
-
-      <div class="footer-copy">
-
-        © 2026 College Activity Management System
-
-      </div>
-
-    </div>
+        <div
+  style="
+    text-align:left;
+    padding-left:40px;
+  "
+  >
+  © 2026 College Activity Management System
+</div>
+ 
 
   </footer>
 
@@ -425,17 +396,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         navbar.innerHTML = `
 
-            <a href="${dashboard}"
+            <a href="/login/"
                class="btn btn-primary btn-sm">
 
-               Dashboard
+               Sign in  
 
             </a>
 
-            <a href="/logout/"
+            <a href="/register/"
                class="btn btn-danger btn-sm">
 
-               Logout
+               Register
 
             </a>
 

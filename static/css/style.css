@@ -231,18 +231,61 @@ tbody td:first-child{color:var(--text-primary);font-weight:500}
 .activity-grid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
 
 /* Activity cards */
-.activity-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;transition:var(--transition-slow);display:flex;flex-direction:column}
+.activity-card{
+
+    background:var(--bg-card);
+
+    border:1px solid var(--border);
+
+    border-radius:var(--radius-lg);
+
+    overflow:visible;
+
+    transition:var(--transition-slow);
+
+    display:flex;
+
+    flex-direction:column;
+
+    min-height:320px;
+
+    height:auto;
+}
 .activity-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:rgba(124,58,237,.3)}
 .activity-card-banner{height:6px;background:linear-gradient(90deg,var(--accent-main),var(--coordinator))}
 .activity-card.sports .activity-card-banner{background:linear-gradient(90deg,#ef4444,#f97316)}
 .activity-card.cultural .activity-card-banner{background:linear-gradient(90deg,#a855f7,#ec4899)}
 .activity-card.technical .activity-card-banner{background:linear-gradient(90deg,#3b82f6,#06b6d4)}
 .activity-card.academic .activity-card-banner{background:linear-gradient(90deg,#10b981,#84cc16)}
-.activity-card-body{padding:20px;flex:1}
+.activity-card-body{
+
+    padding:20px;
+
+    flex:1;
+
+    overflow:visible;
+}
 .activity-card-title{font-size:1rem;font-weight:700;margin-bottom:6px}
 .activity-card-meta{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:.78rem;color:var(--text-muted);margin-bottom:12px}
 .activity-card-meta span{display:flex;align-items:center;gap:5px}
-.activity-card-desc{font-size:.85rem;color:var(--text-secondary);line-height:1.6;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden}
+.activity-card-desc{
+
+    font-size:.85rem;
+
+    color:var(--text-secondary);
+
+    line-height:1.8;
+
+    overflow:visible;
+
+    display:block;
+
+    word-break:break-word;
+
+    white-space:normal;
+
+    margin-bottom:14px;
+}
 .activity-card-footer{padding:14px 20px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px}
 
 /* Auth pages */

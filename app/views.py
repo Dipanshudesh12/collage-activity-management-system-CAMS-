@@ -174,7 +174,7 @@ def register_view(request):
 
             name=name,
             email=email,
-            password=password,
+            password=make_password(password),
             role=role,
             dept=dept,
             phone=phone,
@@ -353,9 +353,6 @@ def enroll(request, id):
             status='pending'
         )
 
-        activity.registered += 1
-        activity.save()
-
         return redirect('/student-dashboard/')
 
     return render(request, 'enroll.html', {
@@ -492,10 +489,77 @@ def api_enrollments(request):
         data.append({
 
             "id": e.id,
+
             "studentId": e.student.id,
+
+            "studentName": e.student.name,
+
             "activityId": e.activity.id,
+
             "activityTitle": e.activity.title,
+
             "status": e.status
         })
 
     return JsonResponse(data, safe=False)
+def approve_enrollment(request, id):
+
+    enroll = Enrollment.objects.get(id=id)
+
+    enroll.status = 'approved'
+
+    enroll.save()
+
+    return redirect('/coordinator-dashboard/')
+
+
+def reject_enrollment(request, id):
+
+    enroll = Enrollment.objects.get(id=id)
+
+    enroll.status = 'rejected'
+
+    enroll.save()
+
+    return redirect('/coordinator-dashboard/')
+
+def admin_dashboard(request):
+
+    user_id = request.session.get('user_id')
+
+    if not user_id:
+
+        return redirect('/login/')
+
+    activities = Activity.objects.all()
+
+    users = User.objects.all()
+
+    enrollments = Enrollment.objects.all()
+
+    context = {
+
+        'activities': activities,
+
+        'users': users,
+
+        'enrollments': enrollments,
+
+        'total_users': users.count(),
+
+        'total_activities': activities.count(),
+
+        'approved': activities.filter(
+            status='approved'
+        ).count(),
+
+        'pending': activities.filter(
+            status='pending'
+        ).count(),
+    }
+
+    return render(
+        request,
+        'admin-dashboard.html',
+        context
+    )
