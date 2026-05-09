@@ -156,3 +156,9 @@ class Enrollment(models.Model):
 
     def __str__(self):
         return f"{self.student.name} - {self.activity.title}"
+    
+photo = models.ImageField(
+    upload_to='profile_photos/',
+    blank=True,
+    null=True
+)

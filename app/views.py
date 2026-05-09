@@ -563,3 +563,56 @@ def admin_dashboard(request):
         'admin-dashboard.html',
         context
     )
+def edit_activity(request, id):
+
+    activity = Activity.objects.get(id=id)
+
+    if request.method == 'POST':
+
+        activity.title = request.POST.get('title')
+
+        activity.category = request.POST.get('category')
+
+        activity.desc = request.POST.get('desc')
+
+        activity.date = request.POST.get('date')
+
+        activity.venue = request.POST.get('venue')
+
+        activity.status = 'approved'
+
+        activity.save()
+
+        return redirect('/coordinator-dashboard/')
+
+    return render(request, 'edit-activity.html', {
+        'activity': activity
+    })
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+
+def edit_profile(request):
+
+    user_id = request.session.get('user_id')
+
+    if not user_id:
+        return redirect('/login/')
+
+    user = User.objects.get(id=user_id)
+
+    if request.method == "POST":
+
+        user.name = request.POST.get("name")
+
+        photo = request.FILES.get("photo")
+
+        if photo:
+            user.profile_photo = photo
+
+        user.save()
+
+        return redirect('/student-dashboard/')
+
+    return render(request, 'edit-profile.html', {
+        'user': user
+    })

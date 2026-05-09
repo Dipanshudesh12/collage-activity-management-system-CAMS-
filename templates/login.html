@@ -1,15 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+
 <title>Login — CAMS</title>
-<meta name="description" content="Login to the College Activity Management System."/>
 
 {% load static %}
 
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
 <link rel="stylesheet" href="{% static 'css/neumorphism.css' %}">
+
+<style>
+
+.toast{
+
+    position: fixed;
+
+    top: 25px;
+    right: 25px;
+
+    background: rgba(0,0,0,0.75);
+
+    color: white;
+
+    padding: 14px 24px;
+
+    border-radius: 14px;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    z-index: 9999;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transform: translateX(120px);
+
+    transition: all .4s ease;
+
+    pointer-events: none;
+}
+
+.toast.show{
+
+    opacity: 1;
+
+    visibility: visible;
+
+    transform: translateX(0);
+}
+
+</style>
+
 </head>
 
 <body>
@@ -18,208 +65,181 @@
 
 <nav class="navbar">
 
-  <a href="/" class="navbar-brand">
-    <div class="brand-icon">🎓</div>
-    CAMS
-  </a>
+    <a href="/" class="navbar-brand">
 
-  <ul class="navbar-nav">
-    <li><a href="/">Home</a></li>
-    <li><a href="/activities/">Activities</a></li>
-  </ul>
+        <div class="brand-icon">🎓</div>
 
-  <div class="navbar-actions">
-    <a href="/register/" class="btn btn-primary btn-sm">
-      Create Account
+        CAMS
+
     </a>
-  </div>
 
 </nav>
 
 
 <main class="auth-page">
 
-  <div class="auth-card animate-scale">
+    <div class="auth-card animate-scale">
 
-    <div class="auth-logo">
-      <div class="logo-icon">🎓</div>
+        <div class="auth-logo">
 
-      <h1>Welcome Back</h1>
+            <div class="logo-icon">🎓</div>
 
-      <p>Sign in to your CAMS account</p>
-    </div>
+            <h1>Welcome Back</h1>
 
-
-    <form id="login-form">
-
-      <!-- EMAIL -->
-
-      <div class="form-group">
-
-        <label class="form-label">
-          Email Address <span class="required">*</span>
-        </label>
-
-        <div class="form-icon-wrap">
-
-          <span class="field-icon">✉️</span>
-
-          <input
-            type="email"
-            class="form-control"
-            id="email"
-            placeholder="you@college.edu"
-            required
-          />
+            <p>Sign in to your CAMS account</p>
 
         </div>
 
-      </div>
+
+        <form id="login-form">
+
+            <div class="form-group">
+
+                <label class="form-label">
+                    Email Address
+                </label>
+
+                <div class="form-icon-wrap">
+
+                    <span class="field-icon">✉️</span>
+
+                    <input
+                        type="email"
+                        class="form-control"
+                        id="email"
+                        placeholder="you@college.edu"
+                        required
+                    >
+
+                </div>
+
+            </div>
 
 
-      <!-- PASSWORD -->
+            <div class="form-group">
 
-      <div class="form-group">
+                <label class="form-label">
+                    Password
+                </label>
 
-        <label class="form-label">
-          Password <span class="required">*</span>
-        </label>
+                <div class="form-icon-wrap">
 
-        <div class="form-icon-wrap">
+                    <span class="field-icon">🔒</span>
 
-          <span class="field-icon">🔒</span>
+                    <input
+                        type="password"
+                        class="form-control"
+                        id="password"
+                        placeholder="Your password"
+                        required
+                    >
 
-          <input
-            type="password"
-            class="form-control"
-            id="password"
-            placeholder="Your password"
-            required
-          />
+                    <span
+                        class="field-icon-right"
+                        onclick="toggleField('password')"
+                    >
+                        👁️
+                    </span>
 
-          <span
-            class="field-icon-right"
-            onclick="toggleField('password')"
-          >
-            👁️
-          </span>
+                </div>
 
-        </div>
-
-      </div>
+            </div>
 
 
-      <!-- REMEMBER -->
+            <button
+                type="submit"
+                class="btn btn-primary btn-block btn-lg"
+            >
+                Sign In
+            </button>
 
-      <div style="display:flex;align-items:center;margin-bottom:20px">
-
-        <label class="form-check" style="margin:0">
-
-          <input type="checkbox" id="remember"/>
-
-          <span class="form-check-label">
-            Remember me
-          </span>
-
-        </label>
-
-      </div>
-
-
-      <!-- BUTTON -->
-
-      <button
-        type="submit"
-        class="btn btn-primary btn-block btn-lg"
-      >
-        Sign In
-      </button>
-
-    </form>
-
-
-    <div
-      class="text-center mt-20"
-      style="font-size:.88rem;color:var(--text-muted)"
-    >
-
-      Don't have an account?
-
-      <a
-        href="/register/"
-        style="color:var(--accent-light);font-weight:600"
-      >
-        Register here
-      </a>
+        </form>
 
     </div>
-
-  </div>
 
 </main>
 
 
+<!-- TOAST -->
+
+<div id="toast" class="toast">
+    ✅ Login Successful
+</div>
+
+
 <script src="{% static 'js/auth.js' %}"></script>
-<script src="{% static 'js/app.js' %}"></script>
+
 
 <script>
 
-document.addEventListener('DOMContentLoaded', () => {
-
-    
-
-});
-
-
-function toggleField(id) {
+function toggleField(id){
 
     const el = document.getElementById(id);
 
-    el.type = el.type === 'password'
-        ? 'text'
-        : 'password';
+    el.type = el.type === "password"
+        ? "text"
+        : "password";
 }
 
 
-document.getElementById('login-form').addEventListener('submit', async function(e) {
+function showToast(){
+
+    const toast = document.getElementById("toast");
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    }, 2000);
+}
+
+
+document.getElementById("login-form").addEventListener("submit", async function(e){
 
     e.preventDefault();
 
-    const email = document.getElementById('email').value.trim();
+    const email = document.getElementById("email").value.trim();
 
-    const password = document.getElementById('password').value;
+    const password = document.getElementById("password").value;
 
     const result = await AUTH.login(email, password);
 
-    if (result.ok) {
+    if(result.ok){
 
-        alert('Login successful!');
+        showToast();
 
-        const role = result.user.role;
+        setTimeout(() => {
 
-        if (role === 'student') {
+            const role = result.user.role;
 
-            window.location.href = '/student-dashboard/';
-        }
+            if(role === "student"){
 
-        else if (role === 'coordinator') {
+                window.location.href = "/student-dashboard/";
+            }
 
-            window.location.href = '/coordinator-dashboard/';
-        }
+            else if(role === "coordinator"){
 
-        else {
+                window.location.href = "/coordinator-dashboard/";
+            }
 
-            window.location.href = '/';
-        }
+            else{
+
+                window.location.href = "/";
+            }
+
+        }, 1200);
     }
 
-    else {
+    else{
 
-        if (result.errors) {
+        if(result.errors){
 
             result.errors.forEach(err => {
 
                 alert(err.msg);
+
             });
         }
     }

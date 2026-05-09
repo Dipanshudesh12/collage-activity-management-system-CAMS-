@@ -492,3 +492,8 @@ tbody td:first-child{color:var(--text-primary);font-weight:500}
 .notif-item:hover { background: rgba(37, 99, 235, 0.05); }
 .notif-item:last-child { border-bottom: none; margin-bottom: 0; }
 .notif-item strong { display: block; color: #2563eb !important; margin-bottom: 4px; font-weight: 700; }
+.toast{
+    opacity:0;
+    pointer-events:none;
+}
+ 

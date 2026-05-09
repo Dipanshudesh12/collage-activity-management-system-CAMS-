@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+
 <title>Student Dashboard — CAMS</title>
 
 {% load static %}
@@ -14,120 +17,481 @@
 
 <body style="background:#e0e5ec; min-height:100vh">
 
+<div class="bg-mesh"></div>
+
 <nav class="navbar">
 
   <a href="/" class="navbar-brand">
+
     <div class="brand-icon">🎓</div>
+
     CAMS
+
   </a>
 
   <ul class="navbar-nav">
-    <li><a href="/activities/">Activities</a></li>
+
+    <li>
+      <a href="/activities/">
+        Activities
+      </a>
+    </li>
+
   </ul>
 
   <div class="navbar-actions">
-    <a href="/logout/" class="btn btn-danger btn-sm">
+
+    <a
+      href="/logout/"
+      class="btn btn-danger btn-sm"
+    >
       Logout
     </a>
+
   </div>
 
 </nav>
 
 
-<main style="padding-top:0">
+<main class="page-container">
 
-  <div class="opt-b-header animate-fade">
+  <div class="dashboard-layout">
 
-    <div class="opt-b-avatar-wrapper" id="banner-avatar">
-      👨‍🎓
-    </div>
+    <!-- SIDEBAR -->
 
-    <h1
-      style="font-size:2.2rem;font-weight:800;margin-bottom:8px"
-      id="banner-name"
-    >
-      Loading...
-    </h1>
+    <aside class="sidebar">
 
-    <p
-      style="color:var(--text-secondary);font-size:1.1rem"
-      id="banner-dept"
-    >
-      Student
-    </p>
+      <div class="sidebar-section">
 
-    <div
-      style="margin-top:24px;display:flex;justify-content:center;gap:16px"
-    >
+        <div class="sidebar-section-title">
+          Student Panel
+        </div>
 
-      <a
-        href="/activities/"
-        class="btn btn-primary btn-neumorphic"
-        style="border-radius:100px;padding:10px 24px"
-      >
-        📋 Browse Activities
-      </a>
+        <ul class="sidebar-nav">
 
-      <a
-        href="/logout/"
-        class="btn btn-danger btn-neumorphic"
-        style="border-radius:100px;padding:10px 24px"
-      >
-        🚪 Logout
-      </a>
+          <li>
 
-    </div>
+            <a
+              href="/student-dashboard/"
+              class="active"
+            >
 
-  </div>
+              <span class="nav-icon">
+                👤
+              </span>
 
+              My Profile
 
-  <div class="opt-b-container">
+            </a>
 
-    <!-- STATS -->
+          </li>
 
-    <div
-      class="stat-grid grid mb-32"
-      id="stats-grid"
-    >
-    </div>
+          <li>
 
+            <a href="/activities/">
 
-    <!-- ENROLLMENTS -->
+              <span class="nav-icon">
+                📋
+              </span>
 
-    <div
-      class="opt-b-card animate-slide"
-      style="padding:0;overflow:hidden"
-    >
+              Browse Activities
 
-      <div
-        style="padding:32px 32px 16px;display:flex;justify-content:space-between;align-items:center"
-      >
+            </a>
 
-        <h3 class="section-title" style="margin:0">
-          My Enrollments
-        </h3>
+          </li>
+
+          <li>
+
+            <a href="#participated">
+
+              <span class="nav-icon">
+                🏆
+              </span>
+
+              Participated Activities
+
+            </a>
+
+          </li>
+
+          <li>
+
+            <a href="/logout/">
+
+              <span class="nav-icon">
+                🚪
+              </span>
+
+              Logout
+
+            </a>
+
+          </li>
+
+        </ul>
 
       </div>
 
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <div class="main-content">
+
+      <!-- PROFILE -->
+
       <div
-        class="table-wrapper"
-        style="border:none;box-shadow:none;padding:16px 32px"
+        class="card"
+        style="
+          padding:30px;
+          margin-bottom:25px;
+        "
       >
 
-        <table style="margin:0">
+        <div
+          style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            flex-wrap:wrap;
+            gap:20px;
+          "
+        >
 
-          <thead style="background:transparent">
+          <!-- LEFT -->
 
-            <tr>
-              <th>Activity</th>
-              <th>Status</th>
-            </tr>
+          <!-- LEFT -->
 
-          </thead>
+<div
+  style="
+    display:flex;
+    align-items:center;
+    gap:20px;
+  "
+>
 
-          <tbody id="my-enrolls-tbody"></tbody>
+  {% if user.profile_photo %}
 
-        </table>
+  <img
+    src="{{ user.profile_photo.url }}"
+    alt="Profile"
+    style="
+      width:90px;
+      height:90px;
+      border-radius:50%;
+      object-fit:cover;
+      border:4px solid #6c63ff;
+      box-shadow:0 8px 20px rgba(0,0,0,0.2);
+    "
+  >
+
+  {% else %}
+
+  <div
+    style="
+      width:90px;
+      height:90px;
+      border-radius:50%;
+      background:#6c63ff;
+      color:white;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:36px;
+      font-weight:bold;
+      box-shadow:0 8px 20px rgba(0,0,0,0.2);
+    "
+  >
+    {{ user.name|slice:":1" }}
+  </div>
+
+  {% endif %}
+
+  <div>
+
+    <h1
+      style="
+        margin:0;
+        font-size:42px;
+      "
+    >
+      {{ user.name }}
+    </h1>
+
+    <p
+      style="
+        margin-top:8px;
+        color:#666;
+        font-size:18px;
+      "
+    >
+      🎓 Student
+    </p>
+
+    <p
+      style="
+        margin-top:5px;
+        color:#777;
+      "
+    >
+      {{ user.email }}
+    </p>
+
+  </div>
+
+</div>
+
+          <!-- RIGHT -->
+
+          <div
+            style="
+              display:flex;
+              gap:12px;
+              flex-wrap:wrap;
+            "
+          >
+
+            <a href="{% url 'edit_profile' %}" class="btn btn-primary">
+    Edit Profile
+</a>
+
+            <a
+              href="/activities/"
+              class="btn btn-outline"
+            >
+              📋 Activities
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- STATS -->
+
+      <div class="stat-grid grid mb-32">
+
+        <div class="stat-card">
+
+          <div class="stat-value">
+            {{ enrollments|length }}
+          </div>
+
+          <div class="stat-label">
+            My Enrollments
+          </div>
+
+        </div>
+
+        <div class="stat-card">
+
+          <div class="stat-value">
+            {{ enrollments|length }}
+          </div>
+
+          <div class="stat-label">
+            Participated
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- MY ENROLLMENTS -->
+
+      <div class="card mb-24">
+
+        <div class="card-header">
+
+          <div class="card-title">
+
+            <div
+              class="icon"
+              style="background:rgba(59,130,246,.15)"
+            >
+              📋
+            </div>
+
+            My Enrollments
+
+          </div>
+
+        </div>
+
+        <div class="table-wrapper">
+
+          <table>
+
+            <thead>
+
+              <tr>
+
+                <th>Activity</th>
+
+                <th>Status</th>
+
+                <th>Cancel</th>
+
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              {% for e in enrollments %}
+
+              <tr>
+
+                <td>
+                  {{ e.activity.title }}
+                </td>
+
+                <td>
+
+                  <span class="badge">
+                    {{ e.status }}
+                  </span>
+
+                </td>
+
+                <td>
+
+                  {% if e.status == 'pending' %}
+
+                  <a
+                    href="/cancel-enrollment/{{ e.id }}/"
+                    class="btn btn-danger btn-sm"
+                  >
+                    ❌ Cancel
+                  </a>
+
+                  {% else %}
+
+                  <span
+                    style="
+                      color:#16a34a;
+                      font-weight:600;
+                    "
+                  >
+                    Joined
+                  </span>
+
+                  {% endif %}
+
+                </td>
+
+              </tr>
+
+              {% empty %}
+
+              <tr>
+
+                <td colspan="3">
+
+                  No enrollments yet
+
+                </td>
+
+              </tr>
+
+              {% endfor %}
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+
+      <!-- PARTICIPATED ACTIVITIES -->
+
+      <div
+        class="card"
+        id="participated"
+      >
+
+        <div class="card-header">
+
+          <div class="card-title">
+
+            <div
+              class="icon"
+              style="background:rgba(16,185,129,.15)"
+            >
+              🏆
+            </div>
+
+            Participated Activities
+
+          </div>
+
+        </div>
+
+        <div class="table-wrapper">
+
+          <table>
+
+            <thead>
+
+              <tr>
+
+                <th>Activity</th>
+
+                <th>Status</th>
+
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              {% for e in enrollments %}
+
+              {% if e.status == 'approved' %}
+
+              <tr>
+
+                <td>
+                  {{ e.activity.title }}
+                </td>
+
+                <td>
+
+                  <span class="badge badge-success">
+                    Participated
+                  </span>
+
+                </td>
+
+              </tr>
+
+              {% endif %}
+
+              {% empty %}
+
+              <tr>
+
+                <td colspan="2">
+
+                  No participated activities
+
+                </td>
+
+              </tr>
+
+              {% endfor %}
+
+            </tbody>
+
+          </table>
+
+        </div>
 
       </div>
 
@@ -136,120 +500,6 @@
   </div>
 
 </main>
-
-
-<script src="{% static 'js/auth.js' %}"></script>
-<script src="{% static 'js/app.js' %}"></script>
-
-<script>
-
-document.addEventListener('DOMContentLoaded', async () => {
-
-    AUTH.requireAuth(['student']);
-
-    const sess = AUTH.getSession();
-
-    if (!sess) {
-
-        window.location.href = '/login/';
-        return;
-    }
-
-    document.getElementById('banner-name').textContent = sess.name;
-
-    document.getElementById('banner-dept').textContent =
-        (sess.dept || 'Student') + ' · Student';
-
-    const initials = sess.name
-        .split(' ')
-        .map(w => w[0])
-        .join('')
-        .substring(0,2)
-        .toUpperCase();
-
-    document.getElementById('banner-avatar').textContent = initials;
-
-    await renderStats();
-
-    await renderEnrollments();
-});
-
-
-async function renderStats() {
-
-    const sess = AUTH.getSession();
-
-    const allEnrolls = await APP.getEnrollments();
-
-    const enrolls = allEnrolls.filter(
-        e => e.studentId === sess.id
-    );
-
-    const activities = await APP.getActivities();
-
-    const approved = activities.filter(
-        a => a.status === 'approved'
-    );
-
-    document.getElementById('stats-grid').innerHTML = `
-
-        <div class="stat-card">
-            <div class="stat-value">${enrolls.length}</div>
-            <div class="stat-label">My Enrollments</div>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-value">${approved.length}</div>
-            <div class="stat-label">Activities</div>
-        </div>
-
-    `;
-}
-
-
-async function renderEnrollments() {
-
-    const sess = AUTH.getSession();
-
-    const allEnrolls = await APP.getEnrollments();
-
-    const enrolls = allEnrolls.filter(
-        e => e.studentId === sess.id
-    );
-
-    const tb = document.getElementById('my-enrolls-tbody');
-
-    if (!enrolls.length) {
-
-        tb.innerHTML = `
-            <tr>
-                <td colspan="2">
-                    No enrollments yet
-                </td>
-            </tr>
-        `;
-
-        return;
-    }
-
-    tb.innerHTML = enrolls.map(e => `
-
-        <tr>
-
-            <td>${e.activityTitle}</td>
-
-            <td>
-                <span class="badge">
-                    ${e.status}
-                </span>
-            </td>
-
-        </tr>
-
-    `).join('');
-}
-
-</script>
 
 </body>
 </html>

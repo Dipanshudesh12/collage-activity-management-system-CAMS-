@@ -35,6 +35,7 @@ urlpatterns = [
         views.student_dashboard,
         name='student_dashboard'
     ),
+    path('edit-profile/', views.edit_profile, name='edit_profile'),
 
     path(
         'coordinator-dashboard/',
@@ -93,4 +94,9 @@ urlpatterns = [
         views.reject_enrollment,
         name='reject_enrollment'
     ),
+    path(
+    'edit-activity/<int:id>/',
+    views.edit_activity,
+    name='edit_activity'
+),
 ]

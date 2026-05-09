@@ -21,433 +21,539 @@
 
 <nav class="navbar">
 
-  <a href="/" class="navbar-brand">
+    <a href="/" class="navbar-brand">
 
-    <div class="brand-icon">🎓</div>
+        <div class="brand-icon">🎓</div>
 
-    CAMS
+        CAMS
 
-  </a>
-
-  <ul class="navbar-nav">
-
-    <li>
-      <a href="/activities/">
-        Activities
-      </a>
-    </li>
-
-    <li>
-      <a href="/submit-activity/">
-        Submit Activity
-      </a>
-    </li>
-
-  </ul>
-
-  <div class="navbar-actions">
-
-    <a
-      href="/logout/"
-      class="btn btn-danger btn-sm"
-    >
-      Logout
     </a>
 
-  </div>
+    <ul class="navbar-nav">
+
+        <li>
+            <a href="/activities/">
+                Activities
+            </a>
+        </li>
+
+        <li>
+            <a href="/submit-activity/">
+                Submit Activity
+            </a>
+        </li>
+
+    </ul>
+
+    <div class="navbar-actions">
+
+        <a
+          href="/logout/"
+          class="btn btn-danger btn-sm"
+        >
+            Logout
+        </a>
+
+    </div>
 
 </nav>
 
 
 <main class="page-container">
 
-  <div class="dashboard-layout">
+    <div class="dashboard-layout">
 
-    <!-- SIDEBAR -->
+        <!-- SIDEBAR -->
 
-    <aside class="sidebar">
+        <aside class="sidebar">
 
-      <div class="sidebar-section">
+            <div class="sidebar-section">
 
-        <div class="sidebar-section-title">
-          Menu
-        </div>
+                <div class="sidebar-section-title">
+                    Menu
+                </div>
 
-        <ul class="sidebar-nav">
+                <ul class="sidebar-nav">
 
-          <li>
-            <a
-              href="/coordinator-dashboard/"
-              class="active"
-            >
-              <span class="nav-icon">📊</span>
-              Dashboard
-            </a>
-          </li>
+                    <li>
 
-          <li>
-            <a href="/submit-activity/">
-              <span class="nav-icon">➕</span>
-              New Activity
-            </a>
-          </li>
+                        <a
+                          href="/coordinator-dashboard/"
+                          class="active"
+                        >
 
-          <li>
-            <a href="/activities/">
-              <span class="nav-icon">📋</span>
-              Browse Activities
-            </a>
-          </li>
+                            <span class="nav-icon">
+                                📊
+                            </span>
 
-          <li>
-            <a href="/logout/">
-              <span class="nav-icon">🚪</span>
-              Logout
-            </a>
-          </li>
+                            Dashboard
 
-        </ul>
+                        </a>
 
-      </div>
+                    </li>
 
-    </aside>
+                    <li>
 
+                        <a href="/submit-activity/">
 
-    <!-- MAIN CONTENT -->
+                            <span class="nav-icon">
+                                ➕
+                            </span>
 
-    <div class="main-content">
+                            New Activity
 
-      <!-- HEADER -->
+                        </a>
 
-      <div class="page-header animate-fade">
+                    </li>
 
-        <div>
+                    <li>
 
-          <h1 class="page-title">
-            Coordinator Dashboard
-          </h1>
+                        <a href="/activities/">
 
-          <p
-            class="page-subtitle"
-            id="welcome-msg"
-          >
-            Welcome, {{ user.name }}!
-          </p>
+                            <span class="nav-icon">
+                                📋
+                            </span>
 
-        </div>
+                            Browse Activities
 
-        <div style="display:flex;gap:12px">
+                        </a>
 
-          <a
-            href="/submit-activity/"
-            class="btn btn-primary"
-          >
-            ➕ New Activity
-          </a>
+                    </li>
 
-        </div>
+                    <li>
 
-      </div>
+                        <a href="/logout/">
 
+                            <span class="nav-icon">
+                                🚪
+                            </span>
 
-      <!-- STATS -->
+                            Logout
 
-      <div class="stat-grid grid mb-32">
+                        </a>
 
-        <div class="stat-card">
+                    </li>
 
-          <div class="stat-value">
-            {{ total_activities }}
-          </div>
+                </ul>
 
-          <div class="stat-label">
-            Activities
-          </div>
-
-        </div>
-
-        <div class="stat-card">
-
-          <div class="stat-value">
-            {{ approved }}
-          </div>
-
-          <div class="stat-label">
-            Approved
-          </div>
-
-        </div>
-
-        <div class="stat-card">
-
-          <div class="stat-value">
-            {{ pending }}
-          </div>
-
-          <div class="stat-label">
-            Pending
-          </div>
-
-        </div>
-
-        <div class="stat-card">
-
-          <div class="stat-value">
-            {{ total_enrollments }}
-          </div>
-
-          <div class="stat-label">
-            Enrollments
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <!-- ACTIVITIES -->
-
-      <div class="card animate-slide mb-24">
-
-        <div class="card-header">
-
-          <div class="card-title">
-
-            <div
-              class="icon"
-              style="background:rgba(59,130,246,.15)"
-            >
-              📋
             </div>
 
-            My Activities
-
-          </div>
-
-        </div>
-
-        <div class="table-wrapper">
-
-          <table>
-
-            <thead>
-
-              <tr>
-
-                <th>Title</th>
-
-                <th>Category</th>
-
-                <th>Date</th>
-
-                <th>Status</th>
-
-              </tr>
-
-            </thead>
-
-            <tbody>
-
-              {% for a in activities %}
-
-              <tr>
-
-                <td>
-                  {{ a.title }}
-                </td>
-
-                <td>
-                  {{ a.category }}
-                </td>
-
-                <td>
-                  {{ a.date }}
-                </td>
-
-                <td>
-
-                  <span class="badge">
-                    {{ a.status }}
-                  </span>
-
-                </td>
-
-              </tr>
-
-              {% empty %}
-
-              <tr>
-
-                <td colspan="4">
-
-                  No activities yet
-
-                </td>
-
-              </tr>
-
-              {% endfor %}
-
-            </tbody>
-
-          </table>
-
-        </div>
-
-      </div>
+        </aside>
 
 
-      <!-- ENROLLMENTS -->
+        <!-- MAIN CONTENT -->
 
-      <div class="card animate-slide">
+        <div class="main-content">
 
-        <div class="card-header">
-
-          <div class="card-title">
+            <!-- HEADER -->
 
             <div
-              class="icon"
-              style="background:rgba(16,185,129,.15)"
+              class="card"
+              style="
+                padding:20px 30px;
+                margin-bottom:25px;
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+              "
             >
-              🎟️
+
+                <!-- LEFT -->
+
+                <div
+                  style="
+                    display:flex;
+                    align-items:center;
+                    gap:18px;
+                  "
+                >
+
+                    {% if user.profile_photo %}
+
+                    <img
+                      src="{{ user.profile_photo.url }}"
+                      alt="Profile"
+                      style="
+                        width:70px;
+                        height:70px;
+                        border-radius:50%;
+                        object-fit:cover;
+                        border:3px solid #6c63ff;
+                      "
+                    >
+
+                    {% else %}
+
+                    <div
+                      style="
+                        width:70px;
+                        height:70px;
+                        border-radius:50%;
+                        background:#6c63ff;
+                        color:white;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        font-size:28px;
+                        font-weight:bold;
+                      "
+                    >
+                        {{ user.name|slice:":1" }}
+                    </div>
+
+                    {% endif %}
+
+                    <div>
+
+                        <h2
+                          style="
+                            margin:0;
+                            font-size:32px;
+                          "
+                        >
+                            Welcome,
+                            {{ user.name }}
+                        </h2>
+
+                        <p
+                          style="
+                            margin-top:6px;
+                            color:#666;
+                          "
+                        >
+                            Coordinator Dashboard
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- RIGHT -->
+
+                <!-- RIGHT -->
+
+<div
+  style="
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+  "
+>
+
+    <a
+      href="{% url 'edit_profile' %}"
+      class="btn btn-primary"
+    >
+        ✏ Edit Profile
+    </a>
+
+    <a
+      href="/submit-activity/"
+      class="btn btn-outline"
+    >
+        ➕ New Activity
+    </a>
+
+</div>
+
             </div>
 
-            Enrollments
 
-          </div>
+            <!-- STATS -->
+
+            <div class="stat-grid grid mb-32">
+
+                <div class="stat-card">
+
+                    <div class="stat-value">
+                        {{ total_activities }}
+                    </div>
+
+                    <div class="stat-label">
+                        Activities
+                    </div>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <div class="stat-value">
+                        {{ approved }}
+                    </div>
+
+                    <div class="stat-label">
+                        Approved
+                    </div>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <div class="stat-value">
+                        {{ pending }}
+                    </div>
+
+                    <div class="stat-label">
+                        Pending
+                    </div>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <div class="stat-value">
+                        {{ total_enrollments }}
+                    </div>
+
+                    <div class="stat-label">
+                        Enrollments
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTIVITIES -->
+
+            <div class="card animate-slide mb-24">
+
+                <div class="card-header">
+
+                    <div class="card-title">
+
+                        <div
+                          class="icon"
+                          style="background:rgba(59,130,246,.15)"
+                        >
+                            📋
+                        </div>
+
+                        My Activities
+
+                    </div>
+
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Title</th>
+
+                                <th>Category</th>
+
+                                <th>Date</th>
+
+                                <th>Status</th>
+
+                                <th>Edit</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for a in activities %}
+
+                            <tr>
+
+                                <td>
+                                    {{ a.title }}
+                                </td>
+
+                                <td>
+                                    {{ a.category }}
+                                </td>
+
+                                <td>
+                                    {{ a.date }}
+                                </td>
+
+                                <td>
+
+                                    <span class="badge">
+                                        {{ a.status }}
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    <a
+                                      href="/edit-activity/{{ a.id }}/"
+                                      class="btn btn-primary btn-sm"
+                                    >
+                                        ✏ Edit
+                                    </a>
+
+                                </td>
+
+                            </tr>
+
+                            {% empty %}
+
+                            <tr>
+
+                                <td colspan="5">
+
+                                    No activities yet
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- ENROLLMENTS -->
+
+            <div class="card animate-slide">
+
+                <div class="card-header">
+
+                    <div class="card-title">
+
+                        <div
+                          class="icon"
+                          style="background:rgba(16,185,129,.15)"
+                        >
+                            🎟️
+                        </div>
+
+                        Enrollments
+
+                    </div>
+
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Student</th>
+
+                                <th>Activity</th>
+
+                                <th>Status</th>
+
+                                <th>Actions</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for e in enrollments %}
+
+                            <tr>
+
+                                <td>
+                                    {{ e.student.name }}
+                                </td>
+
+                                <td>
+                                    {{ e.activity.title }}
+                                </td>
+
+                                <td>
+
+                                    <span class="badge">
+                                        {{ e.status }}
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    {% if e.status == 'pending' %}
+
+                                    <div
+                                      style="
+                                        display:flex;
+                                        gap:8px;
+                                      "
+                                    >
+
+                                        <a
+                                          href="/approve-enrollment/{{ e.id }}/"
+                                          class="btn btn-success btn-sm"
+                                        >
+                                            ✓ Approve
+                                        </a>
+
+                                        <a
+                                          href="/reject-enrollment/{{ e.id }}/"
+                                          class="btn btn-danger btn-sm"
+                                        >
+                                            ✕ Reject
+                                        </a>
+
+                                    </div>
+
+                                    {% elif e.status == 'approved' %}
+
+                                    <span class="badge badge-success">
+                                        Approved
+                                    </span>
+
+                                    {% elif e.status == 'rejected' %}
+
+                                    <span class="badge badge-error">
+                                        Rejected
+                                    </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                            {% empty %}
+
+                            <tr>
+
+                                <td colspan="4">
+
+                                    No enrollments yet
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
 
         </div>
 
-        <div class="table-wrapper">
-
-          <table>
-
-            <thead>
-
-              <tr>
-
-                <th>Student</th>
-
-                <th>Activity</th>
-
-                <th>Status</th>
-
-                <th>Actions</th>
-
-              </tr>
-
-            </thead>
-
-            <tbody>
-
-              {% for e in enrollments %}
-
-              <tr>
-
-                <td>
-                  {{ e.student.name }}
-                </td>
-
-                <td>
-                  {{ e.activity.title }}
-                </td>
-
-                <td>
-
-                  <span class="badge">
-                    {{ e.status }}
-                  </span>
-
-                </td>
-
-                <td>
-
-    {% if e.status == 'pending' %}
-
-    <div style="display:flex;gap:8px">
-
-        <a
-          href="/approve-enrollment/{{ e.id }}/"
-          class="btn btn-success btn-sm"
-        >
-          ✓ Approve
-        </a>
-
-        <a
-          href="/reject-enrollment/{{ e.id }}/"
-          class="btn btn-danger btn-sm"
-        >
-          ✕ Reject
-        </a>
-
     </div>
-
-    {% elif e.status == 'approved' %}
-
-    <span class="badge badge-success">
-        Approved
-    </span>
-
-    {% elif e.status == 'rejected' %}
-
-    <span class="badge badge-error">
-        Rejected
-    </span>
-
-    {% endif %}
-
-</td>
-
-              </tr>
-
-              {% empty %}
-
-              <tr>
-
-                <td colspan="4">
-
-                  No enrollments yet
-
-                </td>
-
-              </tr>
-
-              {% endfor %}
-
-            </tbody>
-
-          </table>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
 
 </main>
-
-<script src="{% static 'js/auth.js' %}"></script>
-<script src="{% static 'js/app.js' %}"></script>
-
-<script>
-
-document.addEventListener('DOMContentLoaded', () => {
-
-    const sess = AUTH.getSession();
-
-    if (!sess) {
-
-        window.location.href = '/login/';
-        return;
-    }
-
-    document.getElementById('welcome-msg').textContent =
-        `Welcome, ${sess.name}!`;
-});
-
-</script>
 
 </body>
 </html>
