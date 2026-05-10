@@ -1,7 +1,5 @@
 from django.db import models
 
-
-# 👤 USER
 class User(models.Model):
 
     ROLE_CHOICES = (
@@ -53,8 +51,6 @@ class User(models.Model):
     def __str__(self):
         return self.name
 
-
-# 🎯 ACTIVITY
 class Activity(models.Model):
 
     CATEGORY_CHOICES = (
@@ -124,7 +120,6 @@ class Activity(models.Model):
         return self.title
 
 
-# 🎟️ ENROLLMENT
 class Enrollment(models.Model):
 
     STATUS_CHOICES = (
